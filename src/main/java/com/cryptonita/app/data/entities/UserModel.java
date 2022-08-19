@@ -50,13 +50,16 @@ public class UserModel {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<FavouritesModel> favourites = new ArrayList<>();
 
+    private int numRequests;
+
     @Builder
-    public UserModel(String mail, String username, String password, UserRole role, UserType type) {
+    public UserModel(String mail, String username, String password, UserRole role, UserType type, int numRequests) {
         this.mail = mail;
         this.username = username;
         this.password = password;
         this.role = role;
         this.type = type;
+        this.numRequests = numRequests;
     }
 
 }

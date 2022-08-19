@@ -5,10 +5,13 @@ import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.BannedUserResponseDTO;
 import com.cryptonita.app.dto.data.response.FavoritesResponseDto;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
 public interface IUserProvider {
+
+
 
     /**
      * Registers a user
@@ -20,11 +23,13 @@ public interface IUserProvider {
 
     UserResponseDTO getById(long id);
 
-    UserResponseDTO getByName(String name);
+     UserResponseDTO getByName(String name);
 
     UserResponseDTO getByEmail(String mail);
 
     UserResponseDTO changeUserType(String mail, UserType userType);
+
+    UserResponseDTO changeUserNumRequests(String name);
 
 
     /**

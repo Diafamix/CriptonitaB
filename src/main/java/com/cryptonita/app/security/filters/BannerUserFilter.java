@@ -8,7 +8,6 @@ import com.cryptonita.app.security.SecurityContextHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,9 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Enumeration;
 
 @Component
 @AllArgsConstructor
@@ -32,8 +29,11 @@ public class BannerUserFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        System.out.println(request.getRequestURI());
         UserResponseDTO dtoUser = contextHelper.getUser();
+        if (dtoUser == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (!userProvider.isBannedByUsername(dtoUser.getUsername())) {
             filterChain.doFilter(request, response);
@@ -47,13 +47,13 @@ public class BannerUserFilter extends OncePerRequestFilter {
             return;
         }
 
+        response.setContentType("application/json");
         response.getOutputStream().print(
-                objectMapper.writerWithDefaultPrettyPrinter()
-                        .writeValueAsString(
-                                RestResponse.encapsulate(
-                                        Pair.of("result", "This user is banned")
-                                )
+                objectMapper.writeValueAsString(
+                        RestResponse.encapsulate(
+                                Pair.of("result", "This user is banned")
                         )
+                )
         );
     }
 

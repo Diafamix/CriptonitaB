@@ -2,6 +2,7 @@ package com.cryptonita.app.core.controllers;
 
 import com.cryptonita.app.core.controllers.services.IAssetsService;
 import com.cryptonita.app.core.controllers.utils.RestResponse;
+import com.cryptonita.app.core.controllers.utils.TokenConsume;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class AssetsController {
     @GetMapping("assets/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all coins supported")
+    @TokenConsume(1)
     public RestResponse list() {
         return RestResponse.encapsulate(assetsService.list());
     }
@@ -30,6 +32,7 @@ public class AssetsController {
     @GetMapping("assets/{coinID}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all coins supported")
+    @TokenConsume(1)
     public Mono<RestResponse> get(@PathVariable String coinID) {
         return assetsService.getMetadata(coinID)
                 .map(RestResponse::encapsulate);
@@ -38,6 +41,7 @@ public class AssetsController {
     @GetMapping("markets")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get current data (name, price, market, ...) for all the coins supported")
+    @TokenConsume(1)
     public Mono<RestResponse> getAll(@RequestParam(required = false) Optional<String> ids) {
         return ids
                 .map(assetsService::getAll)
@@ -46,9 +50,10 @@ public class AssetsController {
                 .map(RestResponse::encapsulate);
     }
 
-    @GetMapping("markets/getById/{coinID}")
+    @GetMapping("markets/{coinID}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get current data (name, price, market, ... including exchange tickers) for a coin by id")
+    @Operation(summary = "Get current data (name, price, market, ...) for a coin by id")
+    @TokenConsume(1)
     public Mono<RestResponse> getById(@PathVariable String coinID) {
         return assetsService.getById(coinID)
                 .map(RestResponse::encapsulate);
@@ -57,6 +62,7 @@ public class AssetsController {
     @GetMapping("assets/getHistory")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical data (name, price, market, stats) at a given date for a coin")
+    @TokenConsume(1)
     public Mono<RestResponse> getHistory(String id, String vs_currency,
                                          String days,
                                          @RequestParam Optional<String> interval) {
@@ -69,6 +75,7 @@ public class AssetsController {
     @GetMapping("assets/getCandle")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical ohlc at a given date range for a coin")
+    @TokenConsume(1)
     public Mono<RestResponse> getCandle(String id, String vs_currency, String days) {
         return assetsService.getAllCandles(id, vs_currency, days)
                 .collectList()

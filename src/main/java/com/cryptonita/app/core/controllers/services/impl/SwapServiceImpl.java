@@ -2,20 +2,17 @@ package com.cryptonita.app.core.controllers.services.impl;
 
 import com.cryptonita.app.core.controllers.services.IConvertorService;
 import com.cryptonita.app.core.controllers.services.ISwapService;
-import com.cryptonita.app.data.entities.enums.UserType;
 import com.cryptonita.app.data.providers.IAccountProvider;
 import com.cryptonita.app.data.providers.IRegisterProvider;
 import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.dto.data.response.SwapResponseDto;
 import com.cryptonita.app.dto.data.response.SwapUsersResponseDto;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
-import com.cryptonita.app.dto.data.response.WalletResponseDto;
 import com.cryptonita.app.dto.integration.ConversorDTO;
 import com.cryptonita.app.security.SecurityContextHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 
@@ -37,7 +34,7 @@ public class SwapServiceImpl implements ISwapService {
         UserResponseDTO user = securityContextHelper.getUser();
         ConversorDTO conversorDTO = convertorService.convert(from, to, amount).block();
 
-        double toDeposit = conversorDTO.price * user.getType().getComission();
+        double toDeposit = conversorDTO.price * user.getType().getCommission();
 
         accountProvider.withDraw(user.username, from, amount);
         accountProvider.deposit(user.username, to, toDeposit);
@@ -59,7 +56,7 @@ public class SwapServiceImpl implements ISwapService {
         ConversorDTO conversorDTO = convertorService.convert(from, to, amount).block();
         UserResponseDTO userTo = userProvider.getByName(userTarget);
 
-        double toDeposit = conversorDTO.price * userTo.getType().getComission();
+        double toDeposit = conversorDTO.price * userTo.getType().getCommission();
 
         accountProvider.withDraw(userFrom.username, from, amount);
         accountProvider.deposit(userTo.username, to, toDeposit);

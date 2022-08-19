@@ -99,6 +99,18 @@ public class UserProviderImpl implements IUserProvider {
     }
 
     @Override
+    public UserResponseDTO changeUserNumRequests(String name) {
+        UserModel model = userDao.findByUsername(name).orElse(null);
+
+        if(model == null)
+            throw new UserNotFoundException(USER_NOT_EXISTS);
+
+        model.setNumRequests(model.getNumRequests()+1);
+
+        return responseDTOIMapper.mapToDto(userDao.save(model));
+    }
+
+    @Override
     public synchronized boolean matchesPassword(String mail, String password) {
         return innerMatchPassword(userDao.findByMail(mail), password);
     }

@@ -43,20 +43,6 @@ public class AppApplication {
 
             accountProvider.deposit("sergio.bernal", "ethereum", 120);
 
-            RegisterRequestDTO registerRequestDTO = RegisterRequestDTO.builder()
-                    .date(LocalDate.now())
-                    .quantity(12)
-                    .destiny("Mi wallet")
-                    .origin("Mi cartera")
-                    .user("sergio.bernal")
-                    .build();
-
-
-            //registerProvider.log(registerRequestDTO);
-
-            userProvider.banUser("antonio.borja@optimissa.com");
-            log.info("" + userProvider.isBannedByUsername("antonio.borja"));
-
         };
     }
 

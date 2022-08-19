@@ -11,7 +11,7 @@ class Status {
     public final int error_code;
     public final String error_message;
     public final double elapsed;
-    public final int credit_count;
+    public int credit_count;
 
     public Status(int error_code, String error_message) {
         this.timestamp = LocalDateTime.now();

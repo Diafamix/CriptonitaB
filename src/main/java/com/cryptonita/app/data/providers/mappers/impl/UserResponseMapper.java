@@ -39,6 +39,7 @@ public class UserResponseMapper implements IMapper<UserModel, UserResponseDTO> {
                 .type(userModel.getType())
                 .favorites(favoritesResponseDtos)
                 .wallet(walletMap)
+                .numRequests(userModel.getNumRequests())
                 .build();
     }
 

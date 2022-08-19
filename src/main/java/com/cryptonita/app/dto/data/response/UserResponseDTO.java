@@ -20,5 +20,6 @@ public class UserResponseDTO {
     public final UserType type;
     public final List<FavoritesResponseDto> favorites;
     public final Map<String, WalletResponseDto> wallet;
+    public final int numRequests;
 
 }

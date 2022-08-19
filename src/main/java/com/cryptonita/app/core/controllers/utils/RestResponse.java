@@ -13,6 +13,10 @@ public class RestResponse {
         return new RestResponse(data);
     }
 
+    public static RestResponse error(int errorCode, String message) {
+        return new RestResponse(errorCode, message);
+    }
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public final Object data;
     public final Status status;
@@ -27,4 +31,8 @@ public class RestResponse {
         this.status = new Status(status.value(), e.getMessage());
     }
 
+    public RestResponse(int errorCode, String message) {
+        this.data = null;
+        this.status = new Status(errorCode, message);
+    }
 }
