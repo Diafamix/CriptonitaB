@@ -26,7 +26,7 @@ public class CoinLoader {
                             coinProvider.createCoin(
                                     marketDTO.getId(),
                                     marketDTO.getName(),
-                                    marketDTO.getSymbol());
+                                    marketDTO.getSymbol().toUpperCase());
                         }
                 );
 

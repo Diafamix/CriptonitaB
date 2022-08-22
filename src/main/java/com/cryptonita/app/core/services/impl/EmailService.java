@@ -4,6 +4,7 @@ import com.cryptonita.app.core.services.IEmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class EmailService implements IEmailService {
 
     private JavaMailSender mailSender;
-
+    
     @Override
     public void send(String to, String subject, String content) {
         SimpleMailMessage email = new SimpleMailMessage();

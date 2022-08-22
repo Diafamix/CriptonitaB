@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public final class CoinDTO {
 
-    public final long rank;
-    private final String id;
+    public final String id;
     public final String name;
     public final String symbol;
+    public final long rank;
     public final CoinMarketDTO marketData;
 
     @NoArgsConstructor

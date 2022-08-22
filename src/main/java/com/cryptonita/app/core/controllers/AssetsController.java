@@ -21,7 +21,7 @@ public class AssetsController {
 
     private final IAssetsService assetsService;
 
-    @GetMapping("assets/list")
+    @GetMapping("assets")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all coins supported")
     @TokenConsume(1)
@@ -31,8 +31,8 @@ public class AssetsController {
 
     @GetMapping("assets/{coinID}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get all coins supported")
-    @TokenConsume(1)
+    @Operation(summary = "Get metadata for an specific coin")
+    @TokenConsume(2)
     public Mono<RestResponse> get(@PathVariable String coinID) {
         return assetsService.getMetadata(coinID)
                 .map(RestResponse::encapsulate);
@@ -41,7 +41,7 @@ public class AssetsController {
     @GetMapping("markets")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get current data (name, price, market, ...) for all the coins supported")
-    @TokenConsume(1)
+    @TokenConsume(2)
     public Mono<RestResponse> getAll(@RequestParam(required = false) Optional<String> ids) {
         return ids
                 .map(assetsService::getAll)
@@ -53,7 +53,7 @@ public class AssetsController {
     @GetMapping("markets/{coinID}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get current data (name, price, market, ...) for a coin by id")
-    @TokenConsume(1)
+    @TokenConsume(2)
     public Mono<RestResponse> getById(@PathVariable String coinID) {
         return assetsService.getById(coinID)
                 .map(RestResponse::encapsulate);
@@ -62,7 +62,7 @@ public class AssetsController {
     @GetMapping("assets/getHistory")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical data (name, price, market, stats) at a given date for a coin")
-    @TokenConsume(1)
+    @TokenConsume(2)
     public Mono<RestResponse> getHistory(String id, String vs_currency,
                                          String days,
                                          @RequestParam Optional<String> interval) {
@@ -75,7 +75,7 @@ public class AssetsController {
     @GetMapping("assets/getCandle")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical ohlc at a given date range for a coin")
-    @TokenConsume(1)
+    @TokenConsume(3)
     public Mono<RestResponse> getCandle(String id, String vs_currency, String days) {
         return assetsService.getAllCandles(id, vs_currency, days)
                 .collectList()

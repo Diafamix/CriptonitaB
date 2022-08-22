@@ -1,17 +1,23 @@
 package com.cryptonita.app.core.controllers.services.impl;
 
 import com.cryptonita.app.core.controllers.services.IAutentificationService;
+import com.cryptonita.app.core.services.impl.EmailService;
 import com.cryptonita.app.data.providers.impl.UserProviderImpl;
 import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Service
 @AllArgsConstructor
 public class AuthenticationServiceImpl implements IAutentificationService {
 
     UserProviderImpl userProvider;
+    EmailService emailService;
 
     @Override
     public UserResponseDTO register(UserRegisterDTO userRegisterDTO) {
@@ -24,7 +30,13 @@ public class AuthenticationServiceImpl implements IAutentificationService {
                 .username(userRegisterDTO.username)
                 .build();
 
-        return userProvider.register(newUser);
+
+        UserResponseDTO responseDTO = userProvider.register(newUser);
+
+        CompletableFuture.runAsync(() ->
+                emailService.send(userRegisterDTO.mail, "Registro", "Se registró correctamente"));
+
+        return responseDTO;
     }
 
     @Override

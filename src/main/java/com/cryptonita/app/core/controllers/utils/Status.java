@@ -10,7 +10,7 @@ class Status {
     public final LocalDateTime timestamp;
     public final int error_code;
     public final String error_message;
-    public final double elapsed;
+    public double elapsed;
     public int credit_count;
 
     public Status(int error_code, String error_message) {

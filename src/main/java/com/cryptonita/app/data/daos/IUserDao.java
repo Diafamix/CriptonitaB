@@ -4,6 +4,7 @@ import com.cryptonita.app.data.entities.UserModel;
 import org.h2.engine.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserDao extends JpaRepository<UserModel, Long> {

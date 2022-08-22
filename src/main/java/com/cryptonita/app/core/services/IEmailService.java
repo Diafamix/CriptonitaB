@@ -9,5 +9,4 @@ public interface IEmailService {
      * @param content the content of this email
      */
     void send(String to,String subject,String content);
-
 }
