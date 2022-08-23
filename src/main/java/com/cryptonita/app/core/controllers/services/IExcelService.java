@@ -1,13 +1,12 @@
 package com.cryptonita.app.core.controllers.services;
 
-import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 
 public interface IExcelService {
 
+    void downloadHistory(LocalDate start, LocalDate end, HttpServletResponse response) throws IOException;
 
-     void downloadHistory(String start, String end, HttpServletResponse response) throws IOException;
 }

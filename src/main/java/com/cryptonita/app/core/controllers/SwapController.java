@@ -7,33 +7,42 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/api/swap")
 @AllArgsConstructor
 @CrossOrigin("*")
 @Tag(name = "Swap")
+@Validated
 public class SwapController {
 
     private final ISwapService swapService;
 
-    @GetMapping("/trade")
+    @PostMapping("/trade")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Trades a certain amount of a coin to another in the portfolio of the current user")
     @TokenConsume(1)
-    public RestResponse trade(String from, String to, Double amount) {
+    public RestResponse trade(@NotBlank String from,
+                              @NotBlank String to,
+                              @Positive Double amount) {
         return RestResponse.encapsulate(swapService.swap(from, to, amount));
     }
 
-    @GetMapping("/send")
+    @PostMapping("/send")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Send a certain amount of a coin from the current user to the given user")
     @TokenConsume(1)
-    public RestResponse send(String userTo, String from, String to, Double amount) {
-        return RestResponse.encapsulate(swapService.swap(userTo,from,to,amount));
+    public RestResponse send(@NotBlank String userTo,
+                             @NotBlank String from,
+                             @NotBlank String to,
+                             @Positive double amount) {
+        return RestResponse.encapsulate(swapService.swap(userTo, from, to, amount));
     }
-
 
 
 }

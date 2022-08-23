@@ -27,8 +27,8 @@ public class AuthorizationErrorHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
         response.getOutputStream().println(
                 jsonMapper.writeValueAsString(
-                                RestResponse.encapsulate(accessDeniedException, HttpStatus.FORBIDDEN)
-                        )
+                        RestResponse.encapsulate(accessDeniedException, HttpStatus.FORBIDDEN)
+                )
         );
     }
 }

@@ -31,7 +31,8 @@ public class ResponseAdviceImpl implements ResponseBodyAdvice<RestResponse> {
 
         try {
             body.status.elapsed = getElapsedTime((ServletServerHttpRequest) request);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         return body;
     }

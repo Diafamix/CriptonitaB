@@ -1,6 +1,6 @@
 package com.cryptonita.app.core.controllers.services;
 
-import com.cryptonita.app.dto.data.response.PorfolioResponseDTO;
+import com.cryptonita.app.dto.data.response.PortfolioResponseDTO;
 import com.cryptonita.app.dto.data.response.WalletResponseDto;
 
 /**
@@ -8,6 +8,7 @@ import com.cryptonita.app.dto.data.response.WalletResponseDto;
  */
 public interface IPortfolioService {
     WalletResponseDto get(String coin);
-    PorfolioResponseDTO getAll();
+
+    PortfolioResponseDTO getAll();
 
 }

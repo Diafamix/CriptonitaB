@@ -2,7 +2,6 @@ package com.cryptonita.app.data.providers;
 
 import com.cryptonita.app.core.utils.Validate;
 import com.cryptonita.app.dto.data.response.CoinResponseDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,13 +10,15 @@ public interface ICoinProvider {
 
     /**
      * This method creates a new coin in the database.
+     *
      * @param name name of the coin
-     * @return  object created
+     * @return object created
      */
     CoinResponseDTO createCoin(String coinID, String name, String symbol);
 
     /**
      * This method returns a list of all coins.
+     *
      * @return List of coins
      */
     List<CoinResponseDTO> getAllCoins();
@@ -30,13 +31,15 @@ public interface ICoinProvider {
 
     /**
      * This method deletes a coin by name
-     * @param  name of coin
+     *
+     * @param name of coin
      * @return the deleted coin
      */
     CoinResponseDTO deleteByName(String name);
 
     /**
      * This method get a coin by name
+     *
      * @param name of coin
      * @return The called coin
      */
@@ -44,6 +47,7 @@ public interface ICoinProvider {
 
     /**
      * This method get a coin by its id
+     *
      * @param id of coin to search
      * @return The called coin
      */
@@ -51,6 +55,7 @@ public interface ICoinProvider {
 
     /**
      * This method get a coin by its rank
+     *
      * @param rank of coin to search
      * @return The called coin
      */
@@ -58,6 +63,7 @@ public interface ICoinProvider {
 
     /**
      * This method get a coin by its symbol
+     *
      * @param symbol of coin to search
      * @return The called coin
      */

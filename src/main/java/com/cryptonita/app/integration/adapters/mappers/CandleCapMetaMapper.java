@@ -3,7 +3,6 @@ package com.cryptonita.app.integration.adapters.mappers;
 import com.cryptonita.app.dto.integration.CandleInfoDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -16,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class CandleCapMetaMapper implements AdapterMapper<CandleInfoDTO>{
+public class CandleCapMetaMapper implements AdapterMapper<CandleInfoDTO> {
 
     private final ObjectMapper jsonMapper;
 

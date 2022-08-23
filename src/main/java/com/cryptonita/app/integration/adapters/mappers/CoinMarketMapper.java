@@ -8,13 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Component
 @AllArgsConstructor
-public class CoinMarketMapper implements AdapterMapper<CoinMarketDTO>{
+public class CoinMarketMapper implements AdapterMapper<CoinMarketDTO> {
 
     private final ObjectMapper objectMapper;
 

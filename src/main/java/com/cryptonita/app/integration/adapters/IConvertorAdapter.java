@@ -1,11 +1,6 @@
 package com.cryptonita.app.integration.adapters;
 
-import com.cryptonita.app.data.entities.CoinModel;
 import com.cryptonita.app.dto.integration.ConversorDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import reactor.core.publisher.Mono;
 
 public interface IConvertorAdapter {
@@ -13,7 +8,7 @@ public interface IConvertorAdapter {
     /**
      * Convenient method to convert money from one coin to USD
      *
-     * @param from the currency symbol of the coin to convert from
+     * @param from     the currency symbol of the coin to convert from
      * @param quantity An amount of currency to convert
      * @return the dto with all the information of the conversion
      */
@@ -24,8 +19,8 @@ public interface IConvertorAdapter {
     /**
      * Convenient method to convert money from one coin to another
      *
-     * @param from the currency symbol of the coin to convert from
-     * @param to symbols to convert the source amount to
+     * @param from     the currency symbol of the coin to convert from
+     * @param to       symbols to convert the source amount to
      * @param quantity An amount of currency to convert
      * @return the dto with all the information of the conversion
      */

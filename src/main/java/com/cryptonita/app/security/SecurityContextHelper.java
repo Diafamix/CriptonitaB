@@ -19,4 +19,13 @@ public class SecurityContextHelper {
                 : (UserResponseDTO) authentication.getPrincipal();
     }
 
+    public boolean isAuthenticated() {
+        return getAuthentication() != null && getAuthentication().getPrincipal() != null &&
+                getAuthentication().getPrincipal().getClass() == UserResponseDTO.class;
+    }
+
+    public boolean isNotAuthenticated() {
+        return !isAuthenticated();
+    }
+
 }

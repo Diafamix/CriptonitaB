@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,21 +14,23 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /*@ExceptionHandler(NoCategoryException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    protected RestResponse customHandler(NoCategoryException e) {
-        return ResponseEncapsulation.encapsulate(e, HttpStatus.OK);
-    } */
+    protected RestResponse badRequestHandler(ConstraintViolationException e) {
+        return RestResponse.encapsulate(e, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    protected RestResponse authenticationHandler(AuthenticationException e) {
+    protected RestResponse authenticationHandler(BadCredentialsException e) {
         return RestResponse.encapsulate(e, HttpStatus.UNAUTHORIZED);
     }
 

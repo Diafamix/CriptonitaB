@@ -8,7 +8,7 @@ public interface IConvertorService {
     /**
      * Convert the given amount of a coin to USD
      *
-     * @param from the coin to be converted
+     * @param from   the coin to be converted
      * @param amount the amount to convert
      * @return the dto with the information
      */
@@ -17,8 +17,8 @@ public interface IConvertorService {
     /**
      * Converts a given amount of a coin to a target coin
      *
-     * @param from the coin to be converted
-     * @param to the coin to convert to
+     * @param from   the coin to be converted
+     * @param to     the coin to convert to
      * @param amount the amount to convert
      * @return the dto with the information
      */

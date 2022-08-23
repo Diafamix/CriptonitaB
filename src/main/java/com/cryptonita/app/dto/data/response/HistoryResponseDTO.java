@@ -8,8 +8,7 @@ import java.time.LocalDate;
 
 @Builder
 @Data
-public class HistoryResponseDTO
-{
+public class HistoryResponseDTO {
     public final long id;
     public final UserResponseDTO user;
     public final LocalDate date;

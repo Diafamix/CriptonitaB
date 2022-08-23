@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface ICoinDAO extends JpaRepository<CoinModel,Long> {
+public interface ICoinDAO extends JpaRepository<CoinModel, Long> {
 
     @Query("SELECT c from CoinModel c WHERE lower(c.name) LIKE lower(?1)")
     Optional<CoinModel> findByName(String name);

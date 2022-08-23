@@ -10,12 +10,12 @@ public class CoinMapper implements IMapper<CoinModel, CoinResponseDTO> {
 
     @Override
     public CoinResponseDTO mapToDto(CoinModel coinModel) {
-       return CoinResponseDTO.builder()
-               .id(coinModel.getId())
-               .coinID(coinModel.getCoinID())
-               .name(coinModel.getName())
-               .symbol(coinModel.getSymbol())
-               .build();
+        return CoinResponseDTO.builder()
+                .id(coinModel.getId())
+                .coinID(coinModel.getCoinID())
+                .name(coinModel.getName())
+                .symbol(coinModel.getSymbol())
+                .build();
     }
 
     @Override

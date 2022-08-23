@@ -19,7 +19,7 @@ public class HistoryServiceImpl implements IHistoryService {
 
     @Override
     public List<HistoryResponseDTO> getAllRegisterUser(LocalDate start, LocalDate end) {
-        return registerProvider.getLogsFromUsers(securityContextHelper.getUser().getUsername(),start,end);
+        return registerProvider.getLogsFromUsers(securityContextHelper.getUser().getUsername(), start, end);
     }
 
     @Override

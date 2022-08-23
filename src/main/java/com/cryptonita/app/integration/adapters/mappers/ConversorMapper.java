@@ -55,12 +55,12 @@ public class ConversorMapper implements AdapterMapper<ConversorDTO> {
     @AllArgsConstructor
     private static final class TuplePrice {
 
+        public final String coin;
+        public final double price;
+
         public static TuplePrice of(String coin, double price) {
             return new TuplePrice(coin, price);
         }
-
-        public final String coin;
-        public final double price;
 
     }
 

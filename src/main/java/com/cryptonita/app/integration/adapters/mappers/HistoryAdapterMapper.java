@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class HistoryAdapterMapper implements AdapterMapper<HistoryInfoDTO>{
+public class HistoryAdapterMapper implements AdapterMapper<HistoryInfoDTO> {
 
     private final ObjectMapper jsonMapper;
 
@@ -25,7 +25,6 @@ public class HistoryAdapterMapper implements AdapterMapper<HistoryInfoDTO>{
         JsonNode jsonNode = jsonMapper.readTree(s);
         ArrayNode data = (ArrayNode) jsonNode.get("prices");
 
-        System.out.println(data.get(0));
         return maper(data.iterator().next());
     }
 

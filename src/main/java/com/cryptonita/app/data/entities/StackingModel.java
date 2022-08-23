@@ -3,7 +3,6 @@ package com.cryptonita.app.data.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -26,13 +25,13 @@ public class StackingModel {
     @ManyToOne
     private CoinModel coin;
 
-    @Column(name="Created_At")
+    @Column(name = "Created_At")
     private LocalDateTime createdAt;
 
-    @Column(name="Days_to_expire")
+    @Column(name = "Days_to_expire")
     private int daysToExpire;
 
-    @Column(name="Quantity")
+    @Column(name = "Quantity")
     private double quantity;
 
 

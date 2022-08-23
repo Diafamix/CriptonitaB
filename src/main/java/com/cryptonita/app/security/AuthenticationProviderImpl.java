@@ -29,7 +29,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
         UserResponseDTO dto = userProvider.getByName(name);
 
-        return new UsernamePasswordAuthenticationToken(dto,null, Collections.singletonList(dto.role::name));
+        return new UsernamePasswordAuthenticationToken(dto, null, Collections.singletonList(dto.role::name));
     }
 
     @Override

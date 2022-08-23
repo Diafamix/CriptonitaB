@@ -17,26 +17,26 @@ import java.util.Optional;
 
 public interface IAssetsService {
 
-     List<CoinResponseDTO> list();
+    List<CoinResponseDTO> list();
 
-     Mono<CoinMetadataDTO> getMetadata(String coinID);
+    Mono<CoinMetadataDTO> getMetadata(String coinID);
 
-     Flux<CoinMetadataDTO> getMetadata(String... coinIDs);
+    Flux<CoinMetadataDTO> getMetadata(String... coinIDs);
 
-     Flux<CoinDTO> getAll();
+    Flux<CoinDTO> getAll();
 
-     Flux<CoinDTO> getAll(String ids);
+    Flux<CoinDTO> getAll(String ids);
 
-     Mono<CoinDTO> getById(String coinID);
+    Mono<CoinDTO> getById(String coinID);
 
-     Mono<CoinDTO> getByRank(int rank);
+    Mono<CoinDTO> getByRank(int rank);
 
-     Mono<CoinDTO> getBySymbol(String symbol);
+    Mono<CoinDTO> getBySymbol(String symbol);
 
-     Mono<CoinDTO> getByName(String name);
+    Mono<CoinDTO> getByName(String name);
 
-     Flux<HistoryInfoDTO> getAllHistory(String id, String vs_currency, String days, Optional<String> interval);
+    Flux<HistoryInfoDTO> getAllHistory(String id, String vs_currency, String days, Optional<String> interval);
 
-     Flux<CandleInfoDTO> getAllCandles(String id, String vs_currency, String days);
+    Flux<CandleInfoDTO> getAllCandles(String id, String vs_currency, String days);
 
 }

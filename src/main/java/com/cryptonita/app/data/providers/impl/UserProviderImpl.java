@@ -1,8 +1,14 @@
 package com.cryptonita.app.data.providers.impl;
 
 import com.cryptonita.app.core.services.impl.EmailService;
-import com.cryptonita.app.data.daos.*;
-import com.cryptonita.app.data.entities.*;
+import com.cryptonita.app.data.daos.IBannedUserDao;
+import com.cryptonita.app.data.daos.ICoinDAO;
+import com.cryptonita.app.data.daos.IFavoritesDao;
+import com.cryptonita.app.data.daos.IUserDao;
+import com.cryptonita.app.data.entities.BannedUsersModel;
+import com.cryptonita.app.data.entities.CoinModel;
+import com.cryptonita.app.data.entities.FavouritesModel;
+import com.cryptonita.app.data.entities.UserModel;
 import com.cryptonita.app.data.entities.enums.UserType;
 import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.data.providers.mappers.IMapper;
@@ -21,10 +27,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.security.SecureRandom;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,6 +59,21 @@ public class UserProviderImpl implements IUserProvider {
 
     private final EmailService emailService;
 
+    public static String generateRandomPassword() {
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+
+        for (int i = 0; i < 12; i++) {
+            int randomIndex = random.nextInt(chars.length());
+            sb.append(chars.charAt(randomIndex));
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public synchronized List<UserResponseDTO> getAll() {
         return userDao.findAll().stream()
@@ -74,7 +95,6 @@ public class UserProviderImpl implements IUserProvider {
 
         return responseDTOIMapper.mapToDto(userDao.save(user));
     }
-
 
     @Override
     public synchronized UserResponseDTO getById(long id) {
@@ -128,12 +148,17 @@ public class UserProviderImpl implements IUserProvider {
         if (model == null)
             throw new UserNotFoundException(USER_NOT_EXISTS);
 
-        String pass = generateRandomPassword();
+        String newPassword = generateRandomPassword();
 
-        model.setPassword(encoder.encode(pass));
+        model.setPassword(encoder.encode(newPassword));
+        sendNewPasswordMail(model.getMail(), newPassword);
 
-        emailService.send(model.getMail(), "Nueva contraseña", "Su nueva contraseña es: "+pass);
         return responseDTOIMapper.mapToDto(userDao.save(model));
+    }
+
+    private void sendNewPasswordMail(String mail, String newPassword) {
+        CompletableFuture.runAsync(() ->
+                emailService.send(mail, "New Password", "Your new password is: " + newPassword));
     }
 
     @Override
@@ -292,21 +317,6 @@ public class UserProviderImpl implements IUserProvider {
         favoritesDao.delete(favourite);
 
         return favoritesResponseDtoIMapper.mapToDto(favourite);
-    }
-
-    public static String generateRandomPassword() {
-        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder();
-
-
-        for (int i = 0; i < 12; i++) {
-            int randomIndex = random.nextInt(chars.length());
-            sb.append(chars.charAt(randomIndex));
-        }
-
-        return sb.toString();
     }
 
 

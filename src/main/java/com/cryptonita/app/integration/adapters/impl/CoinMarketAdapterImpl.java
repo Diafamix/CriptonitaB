@@ -32,7 +32,7 @@ public class CoinMarketAdapterImpl implements ICoinMarketAdapter {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .queryParam("vs_currency",vs_currency)
+                                .queryParam("vs_currency", vs_currency)
                                 .build()
                 )
                 .retrieve()
@@ -47,14 +47,14 @@ public class CoinMarketAdapterImpl implements ICoinMarketAdapter {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .queryParam("vs_currency",vs_currency)
-                                .queryParam("ids",ids)
-                                .queryParam("category",category)
-                                .queryParam("order",order)
-                                .queryParam("per_page",per_page)
-                                .queryParam("page",page)
-                                .queryParam("sparkline",sparkline)
-                                .queryParam("price_change_percentage",price_change_percentage)
+                                .queryParam("vs_currency", vs_currency)
+                                .queryParam("ids", ids)
+                                .queryParam("category", category)
+                                .queryParam("order", order)
+                                .queryParam("per_page", per_page)
+                                .queryParam("page", page)
+                                .queryParam("sparkline", sparkline)
+                                .queryParam("price_change_percentage", price_change_percentage)
                                 .build()
                 )
                 .retrieve()
@@ -67,8 +67,8 @@ public class CoinMarketAdapterImpl implements ICoinMarketAdapter {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .queryParam("vs_currency",vs_currency)
-                                .queryParam("ids",ids)
+                                .queryParam("vs_currency", vs_currency)
+                                .queryParam("ids", ids)
                                 .build()
                 )
                 .retrieve()

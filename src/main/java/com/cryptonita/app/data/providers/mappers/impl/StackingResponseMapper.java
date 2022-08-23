@@ -29,5 +29,7 @@ public class StackingResponseMapper implements IMapper<StackingModel, StackingDT
     }
 
     @Override
-    public StackingModel mapToEntity(StackingDTO stackingDTO) {throw new UnsupportedOperationException();}
+    public StackingModel mapToEntity(StackingDTO stackingDTO) {
+        throw new UnsupportedOperationException();
+    }
 }

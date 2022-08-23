@@ -7,15 +7,19 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/favorites")
 @CrossOrigin("*")
 @Tag(name = "Favourites")
+@Validated
 public class FavoritesController {
-    
+
     private final IFavoritesService favoritesService;
 
     @GetMapping("/byName")
@@ -30,7 +34,7 @@ public class FavoritesController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Adds a favourite coin to the current user")
     @TokenConsume(1)
-    public RestResponse add(String coin) {
+    public RestResponse add(@NotBlank String coin) {
         return RestResponse.encapsulate(favoritesService.create(coin));
     }
 
@@ -38,7 +42,7 @@ public class FavoritesController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Removes a favourite coin from the current user")
     @TokenConsume(1)
-    public RestResponse remove(String coin) {
+    public RestResponse remove(@NotBlank String coin) {
         return RestResponse.encapsulate(favoritesService.delete(coin));
     }
 

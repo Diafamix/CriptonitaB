@@ -2,7 +2,7 @@ package com.cryptonita.app.exceptions.data;
 
 import com.cryptonita.app.exceptions.LogicError;
 
-public class UserNotFoundException  extends LogicError {
+public class UserNotFoundException extends LogicError {
 
     public UserNotFoundException() {
     }

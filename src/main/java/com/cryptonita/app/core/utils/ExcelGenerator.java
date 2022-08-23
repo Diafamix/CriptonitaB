@@ -1,23 +1,19 @@
 package com.cryptonita.app.core.utils;
 
 import com.cryptonita.app.dto.data.response.HistoryResponseDTO;
-import com.cryptonita.app.dto.integration.HistoryInfoDTO;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.apache.poi.ss.usermodel.Cell;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
-
 
 
 @Service
@@ -30,12 +26,12 @@ public class ExcelGenerator {
     private XSSFSheet sheet;
 
 
-    public ExcelGenerator(List < HistoryResponseDTO > historyResponseDTO) {
+    public ExcelGenerator(List<HistoryResponseDTO> historyResponseDTO) {
         this.historyResponseDTO = historyResponseDTO;
         workbook = new XSSFWorkbook();
     }
 
-        private void WriteHeader(){
+    private void WriteHeader() {
 
         sheet = workbook.createSheet("History");
         Row row = sheet.createRow(0);

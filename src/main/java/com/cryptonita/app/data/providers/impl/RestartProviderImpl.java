@@ -23,7 +23,7 @@ public class RestartProviderImpl implements IRestartProvider {
 
     @Override
     public RestarResponseDTO findRestart(String month, String year) {
-        return restartDAO.findByMonthAndAndYear(month,year)
+        return restartDAO.findByMonthAndAndYear(month, year)
                 .map(mapper::mapToDto)
                 .orElse(null);
     }

@@ -1,10 +1,7 @@
 package com.cryptonita.app.security.utils;
 
-import com.cryptonita.app.security.handlers.AuthenticationErrorHandling;
-import com.cryptonita.app.security.handlers.AuthorizationErrorHandler;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;

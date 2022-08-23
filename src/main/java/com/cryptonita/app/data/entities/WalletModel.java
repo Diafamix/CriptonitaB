@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- *  Create Wallet JPA Entity
+ * Create Wallet JPA Entity
  **/
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table (name = "WALLET")
+@Table(name = "WALLET")
 public class WalletModel {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne

@@ -18,17 +18,17 @@ public class ConvertorServiceImpl implements IConvertorService {
 
     @Override
     public Mono<ConversorDTO> convert(String from, double amount) {
-        CoinResponseDTO fromCoin = coinProvider.getCoinByName(from);
+        CoinResponseDTO fromCoin = coinProvider.getCoinById(from);
 
         return coinService.convert(fromCoin.symbol, amount);
     }
 
     @Override
     public Mono<ConversorDTO> convert(String from, String to, double amount) {
-        CoinResponseDTO fromCoin = coinProvider.getCoinByName(from);
-        CoinResponseDTO toCoin = coinProvider.getCoinByName(to);
+        CoinResponseDTO fromCoin = coinProvider.getCoinById(from);
+        CoinResponseDTO toCoin = coinProvider.getCoinById(to);
 
-        return  coinService.convert(fromCoin.symbol, toCoin.symbol, amount);
+        return coinService.convert(fromCoin.symbol, toCoin.symbol, amount);
     }
 
 }

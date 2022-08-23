@@ -1,9 +1,10 @@
 package com.cryptonita.app.core.utils;
 
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 public class Validate {
+
+    private Validate() {
+        throw new IllegalStateException("This class cannot be instantiate");
+    }
 
     public static boolean testAndTry(RunnableExc r) {
         try {
@@ -22,7 +23,7 @@ public class Validate {
         }
     }
 
-    public interface SupplierExc<T>  {
+    public interface SupplierExc<T> {
 
         T get() throws Exception;
     }
@@ -31,10 +32,6 @@ public class Validate {
 
         void run() throws Exception;
 
-    }
-
-    private Validate() {
-        throw new IllegalStateException("This class cannot be instantiate");
     }
 
 }

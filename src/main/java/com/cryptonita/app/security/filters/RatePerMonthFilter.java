@@ -1,7 +1,6 @@
 package com.cryptonita.app.security.filters;
 
 import com.cryptonita.app.core.controllers.utils.RestResponse;
-import com.cryptonita.app.data.entities.enums.UserRole;
 import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
 import com.cryptonita.app.security.SecurityContextHelper;
@@ -33,14 +32,10 @@ public class RatePerMonthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         UserResponseDTO useDTO = securityContextHelper.getUser();
-        if (useDTO == null || useDTO.role == UserRole.ADMIN) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         useDTO = userProvider.getByName(useDTO.getUsername());
 
-        if(userProvider.getByName(useDTO.getUsername()).numRequests >= useDTO.type.getRateLimitPerMonth()) {
+        if (userProvider.getByName(useDTO.getUsername()).numRequests >= useDTO.type.getRateLimitPerMonth()) {
             response.setContentType("application/json");
             response.getOutputStream().print(
                     jsonMapper.writeValueAsString(
@@ -57,7 +52,7 @@ public class RatePerMonthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().startsWith("/api/");
+        return !request.getRequestURI().startsWith("/api/") || securityContextHelper.isNotAuthenticated();
     }
 
 }

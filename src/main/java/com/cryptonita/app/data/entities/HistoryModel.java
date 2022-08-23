@@ -1,11 +1,9 @@
 package com.cryptonita.app.data.entities;
 
 import lombok.*;
-import org.h2.engine.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Create History JPA entity

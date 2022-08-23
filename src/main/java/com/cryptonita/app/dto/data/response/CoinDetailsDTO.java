@@ -12,6 +12,6 @@ public class CoinDetailsDTO {
     private String name;
     private double quantity;
     private double allocation;
-    private CoinMarketDTO coinMarketDTO;
+    private CoinMarketDTO marketData;
 
 }

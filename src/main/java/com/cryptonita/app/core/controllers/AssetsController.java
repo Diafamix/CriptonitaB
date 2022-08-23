@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +19,7 @@ import java.util.Optional;
 @RequestMapping("/api/")
 @CrossOrigin("*")
 @Tag(name = "Assets")
+@Validated
 public class AssetsController {
 
     private final IAssetsService assetsService;
@@ -63,8 +66,9 @@ public class AssetsController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical data (name, price, market, stats) at a given date for a coin")
     @TokenConsume(2)
-    public Mono<RestResponse> getHistory(String id, String vs_currency,
-                                         String days,
+    public Mono<RestResponse> getHistory(@NotBlank String id,
+                                         @NotBlank String vs_currency,
+                                         @NotBlank String days,
                                          @RequestParam Optional<String> interval) {
 
         return assetsService.getAllHistory(id, vs_currency, days, interval)
@@ -76,7 +80,9 @@ public class AssetsController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical ohlc at a given date range for a coin")
     @TokenConsume(3)
-    public Mono<RestResponse> getCandle(String id, String vs_currency, String days) {
+    public Mono<RestResponse> getCandle(@NotBlank String id,
+                                        @NotBlank String vs_currency,
+                                        @NotBlank String days) {
         return assetsService.getAllCandles(id, vs_currency, days)
                 .collectList()
                 .map(RestResponse::encapsulate);

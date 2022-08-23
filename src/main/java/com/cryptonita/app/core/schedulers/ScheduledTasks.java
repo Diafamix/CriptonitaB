@@ -12,16 +12,15 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Component
 @AllArgsConstructor
 public class ScheduledTasks {
 
-    private final IUserProvider userProvider;
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private final IUserProvider userProvider;
     private final IRestartProvider restartProvider;
 
     @Scheduled(fixedRate = 72000000)

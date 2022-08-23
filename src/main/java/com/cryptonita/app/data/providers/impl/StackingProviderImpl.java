@@ -36,8 +36,10 @@ public class StackingProviderImpl implements IStackingProvider {
     private final IStackingDAO stackingDAO;
     private final IUserDao userDao;
     private final ICoinDAO coinDAO;
+
     /**
      * Este metodo crea un stake
+     *
      * @param userName nombre de usuario
      * @param coinName nombre de la moneda de la que se hará el stake
      * @param quantity cantidad de dicha moneda
@@ -45,7 +47,7 @@ public class StackingProviderImpl implements IStackingProvider {
      */
     @Transactional
     @Override
-    public synchronized StackingDTO stake(String userName, String coinName, double quantity,int daysToExpire) {
+    public synchronized StackingDTO stake(String userName, String coinName, double quantity, int daysToExpire) {
         UserModel userModel = userDao.findByUsername(userName)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
@@ -57,10 +59,10 @@ public class StackingProviderImpl implements IStackingProvider {
                 .findFirst()
                 .orElse(null);
 
-        if(wallet == null)
+        if (wallet == null)
             throw new WalletNotFoundException(WALLET_ALREADY_EXISTS);
 
-        if(wallet.getQuantity() < quantity)
+        if (wallet.getQuantity() < quantity)
             throw new WalletNotFoundException("Lo siento, no tienes saldo suficiente");
 
 
@@ -80,18 +82,19 @@ public class StackingProviderImpl implements IStackingProvider {
 
     /**
      * Este metodo elimina un Stake de un usuario
+     *
      * @param userName nombre del usuario
-     * @param id del stake que se va a eliminar
+     * @param id       del stake que se va a eliminar
      * @return retorna el stake eliminado
      */
     @Override
-    public synchronized StackingDTO unStake(long id,String userName) {
+    public synchronized StackingDTO unStake(long id, String userName) {
 
         UserModel userModel = userDao.findByUsername(userName)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
         StackingModel stackingModel = stackingDAO.findById(id)
-                .orElseThrow(() -> new StackingNotFoundException(String.format(STACKING_ALREADY_EXISTS,id)));
+                .orElseThrow(() -> new StackingNotFoundException(String.format(STACKING_ALREADY_EXISTS, id)));
 
         StackingModel stackingModelUser = stackingDAO.findByUserUsername(userName)
                 .orElseThrow(() -> new StackingNotFoundException("Ese usuario no tiene un stake con esa moneda"));
@@ -103,6 +106,7 @@ public class StackingProviderImpl implements IStackingProvider {
 
     /**
      * Este metodo devuelve todos los Stakes de un usuario
+     *
      * @param username nombre del usuario
      * @return una lista de stakes de ese usuario
      */
@@ -115,7 +119,7 @@ public class StackingProviderImpl implements IStackingProvider {
         List<StackingModel> stackingModelList = stackingDAO.findAllByUserId(userModel.getId());
         List<StackingDTO> stackingDTOList = new ArrayList<>();
 
-        for(StackingModel stackingModel : stackingModelList){
+        for (StackingModel stackingModel : stackingModelList) {
             StackingDTO dto = stackingDTOIMapper.mapToDto(stackingModel);
             stackingDTOList.add(dto);
         }
@@ -124,12 +128,13 @@ public class StackingProviderImpl implements IStackingProvider {
 
     /**
      * Este metodo te da un stake de un usuario
-     * @param id del stake
+     *
+     * @param id       del stake
      * @param username nombre del usuario
      * @return el stake buscado con el id
      */
     @Override
-    public synchronized StackingDTO getUserStake(long id,String username) {
+    public synchronized StackingDTO getUserStake(long id, String username) {
         UserModel userModel = userDao.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
@@ -142,6 +147,7 @@ public class StackingProviderImpl implements IStackingProvider {
 
     /**
      * Este metodo te da una lista con todos los stakes
+     *
      * @return todos los stakes
      */
 
@@ -150,7 +156,7 @@ public class StackingProviderImpl implements IStackingProvider {
         List<StackingModel> stackingModelList = stackingDAO.findAll();
         List<StackingDTO> stackingDTOList = new ArrayList<>();
 
-        for(StackingModel stackingModel : stackingModelList){
+        for (StackingModel stackingModel : stackingModelList) {
             StackingDTO dto = stackingDTOIMapper.mapToDto(stackingModel);
             stackingDTOList.add(dto);
         }

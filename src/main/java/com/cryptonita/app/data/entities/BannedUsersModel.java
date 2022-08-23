@@ -3,14 +3,13 @@ package com.cryptonita.app.data.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of ={"id", "user"})
+@EqualsAndHashCode(of = {"id", "user"})
 @Table(name = "BannedUsers")
 public class BannedUsersModel {
 

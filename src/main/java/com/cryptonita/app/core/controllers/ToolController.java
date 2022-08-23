@@ -7,9 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @CrossOrigin("*")
 @Tag(name = "Tools")
+@Validated
 public class ToolController {
 
     private final IConvertorService convertorService;
@@ -25,7 +29,9 @@ public class ToolController {
     @Operation(summary = "Convenient method to convert a coin to another with the most recent data")
     @GetMapping("/convert")
     @TokenConsume(1)
-    public Mono<RestResponse> convert(String from, @RequestParam(required = false) Optional<String> to, double amount) {
+    public Mono<RestResponse> convert(@NotBlank String from,
+                                      @RequestParam(required = false) Optional<String> to,
+                                      @Positive double amount) {
         return to.map(s -> convertorService.convert(from, s, amount)
                         .map(RestResponse::encapsulate)
                 )

@@ -26,7 +26,7 @@ public class CoinModel {
     private String symbol;
 
     @Builder
-    public CoinModel(String coinID, String name, String symbol){
+    public CoinModel(String coinID, String name, String symbol) {
         this.coinID = coinID;
         this.name = name;
         this.symbol = symbol;

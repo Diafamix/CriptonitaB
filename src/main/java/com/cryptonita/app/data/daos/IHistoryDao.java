@@ -9,9 +9,9 @@ import java.util.Optional;
 
 /**
  * History repository
- * */
+ */
 
-public interface IHistoryDao extends JpaRepository<HistoryModel,Long> {
+public interface IHistoryDao extends JpaRepository<HistoryModel, Long> {
 
     Optional<HistoryModel> findById(long id);
 
@@ -23,8 +23,7 @@ public interface IHistoryDao extends JpaRepository<HistoryModel,Long> {
 
     void deleteById(long id);
 
-    List<HistoryModel> findAllByUser_UsernameAndDateAfterAndDateBefore(String username, LocalDate start,LocalDate end);
-
+    List<HistoryModel> findAllByUser_UsernameAndDateAfterAndDateBefore(String username, LocalDate start, LocalDate end);
 
 
 }

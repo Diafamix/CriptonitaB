@@ -31,10 +31,6 @@ public class RatePerMinuteFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         UserResponseDTO useDTO = securityContextHelper.getUser();
-        if (useDTO == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         if (ratePerMinuteMapService.isBlocked(useDTO)) {
             response.setContentType("application/json");
@@ -53,7 +49,7 @@ public class RatePerMinuteFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().startsWith("/api/");
+        return !request.getRequestURI().startsWith("/api/") || securityContextHelper.isNotAuthenticated();
     }
 
 }

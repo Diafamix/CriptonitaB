@@ -24,7 +24,6 @@ public class CandleCapMetaAdapterImpl implements ICandleCapMetaAdapter {
             .build();
 
 
-
     private final AdapterMapper<CandleInfoDTO> mapper;
 
     @Override

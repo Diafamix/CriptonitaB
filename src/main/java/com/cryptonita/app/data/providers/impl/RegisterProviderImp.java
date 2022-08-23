@@ -1,6 +1,5 @@
 package com.cryptonita.app.data.providers.impl;
 
-import com.cryptonita.app.core.controllers.services.IPortfolioService;
 import com.cryptonita.app.data.daos.IHistoryDao;
 import com.cryptonita.app.data.daos.IUserDao;
 import com.cryptonita.app.data.entities.HistoryModel;
@@ -73,7 +72,7 @@ public class RegisterProviderImp implements IRegisterProvider {
         UserModel userModel = userDao.findByUsername(user)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
-        return historyDao.findAllByUser_UsernameAndDateAfterAndDateBefore(user,start,end).stream()
+        return historyDao.findAllByUser_UsernameAndDateAfterAndDateBefore(user, start, end).stream()
                 .map(responseMapper::mapToDto)
                 .collect(Collectors.toList());
     }
@@ -81,7 +80,7 @@ public class RegisterProviderImp implements IRegisterProvider {
     @Override
     public synchronized HistoryResponseDTO getOneRegister(long id) {
         HistoryModel historyModel = historyDao.findById(id)
-                .orElseThrow(() -> new HistoryNotFoundException(String.format(HISTORY_ALREADY_EXISTS,id)));
+                .orElseThrow(() -> new HistoryNotFoundException(String.format(HISTORY_ALREADY_EXISTS, id)));
 
         return responseMapper.mapToDto(historyModel);
     }

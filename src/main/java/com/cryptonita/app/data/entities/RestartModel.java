@@ -1,7 +1,9 @@
 package com.cryptonita.app.data.entities;
 
-import lombok.*;
-import org.checkerframework.checker.units.qual.C;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

@@ -10,11 +10,9 @@ import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.BannedUserResponseDTO;
 import com.cryptonita.app.dto.data.response.CoinResponseDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
-import com.cryptonita.app.exceptions.data.CoinNotFoundException;
 import com.cryptonita.app.security.SecurityContextHelper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -56,12 +54,12 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public UserResponseDTO createUser(String mail, String username, UserRole userRole, UserType userType) {
         return userProvider.register(UserRegisterDTO.builder()
-                        .mail(mail)
-                        .username(username)
-                        .role(userRole)
-                        .password("12345")
-                        .type(userType)
-                        .build());
+                .mail(mail)
+                .username(username)
+                .role(userRole)
+                .password("12345")
+                .type(userType)
+                .build());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.cryptonita.app.core.controllers.services.impl;
 
 import com.cryptonita.app.core.controllers.services.IExcelService;
-import com.cryptonita.app.core.controllers.services.IHistoryService;
 import com.cryptonita.app.core.utils.ExcelGenerator;
 import com.cryptonita.app.data.providers.IRegisterProvider;
 import com.cryptonita.app.dto.data.response.HistoryResponseDTO;
@@ -25,12 +24,9 @@ public class ExcelServiceImpl implements IExcelService {
     private final IRegisterProvider registerProvider;
     private final SecurityContextHelper securityContextHelper;
 
-    public void downloadHistory(String start, String end, HttpServletResponse response) throws IOException {
+    public void downloadHistory(LocalDate start, LocalDate end, HttpServletResponse response) throws IOException {
 
         UserResponseDTO user = securityContextHelper.getUser();
-
-        LocalDate localDateStart = LocalDate.parse(start);
-        LocalDate localDateEnd = LocalDate.parse(end);
 
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -40,7 +36,7 @@ public class ExcelServiceImpl implements IExcelService {
         String headerValue = "attachment; filename=history" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        List<HistoryResponseDTO> historyResponseDTOList = registerProvider.getLogsFromUsers(user.username,localDateStart, localDateEnd);
+        List<HistoryResponseDTO> historyResponseDTOList = registerProvider.getLogsFromUsers(user.username, start, end);
 
         ExcelGenerator generator = new ExcelGenerator(historyResponseDTOList);
 

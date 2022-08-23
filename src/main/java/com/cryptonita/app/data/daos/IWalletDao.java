@@ -8,17 +8,16 @@ import java.util.Optional;
 
 /**
  * Wallet repository
- * */
-public interface IWalletDao extends JpaRepository <WalletModel , Long> {
+ */
+public interface IWalletDao extends JpaRepository<WalletModel, Long> {
 
     Optional<WalletModel> findById(long id);
 
-    Optional<WalletModel>findByUser_UsernameAndCoinName(String userName, String coin);
+    Optional<WalletModel> findByUser_UsernameAndCoinName(String userName, String coin);
 
     List<WalletModel> findAllByUserUsername(String name);
 
     Optional<WalletModel> deleteById(long id);
-
 
 
 }

@@ -3,7 +3,6 @@ package com.cryptonita.app.core.controllers.services.impl;
 import com.cryptonita.app.core.controllers.services.IFavoritesService;
 import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.dto.data.response.FavoritesResponseDto;
-import com.cryptonita.app.dto.data.response.UserResponseDTO;
 import com.cryptonita.app.security.SecurityContextHelper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class FavoritesServiceImpl implements IFavoritesService {
     @Override
     public FavoritesResponseDto delete(String coin) {
 
-        return userProvider.removeFavorite(securityContextHelper.getUser().getUsername(),coin);
+        return userProvider.removeFavorite(securityContextHelper.getUser().getUsername(), coin);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.cryptonita.app.core.utils;
 
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -12,7 +11,7 @@ public class MapperFactoryService {
     /**
      * Utility method to easily map attributes that
      * match to one POJO to another POJO
-     *
+     * <p>
      * NOTE: the fields should be final, if not, an exception
      * will we throw
      *

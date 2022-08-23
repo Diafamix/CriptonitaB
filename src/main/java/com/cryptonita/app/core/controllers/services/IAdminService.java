@@ -5,7 +5,6 @@ import com.cryptonita.app.data.entities.enums.UserType;
 import com.cryptonita.app.dto.data.response.BannedUserResponseDTO;
 import com.cryptonita.app.dto.data.response.CoinResponseDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
-import org.h2.engine.User;
 
 public interface IAdminService {
 

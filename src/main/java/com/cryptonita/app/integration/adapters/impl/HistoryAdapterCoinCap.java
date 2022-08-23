@@ -30,9 +30,9 @@ public class HistoryAdapterCoinCap implements IHistoryAdapter {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder.path(String.format("/coins/%s/market_chart", id))
-                                .queryParam("vs_currency",vs_currency)
-                                .queryParam("days",days)
-                                .queryParam("interval",interval)
+                                .queryParam("vs_currency", vs_currency)
+                                .queryParam("days", days)
+                                .queryParam("interval", interval)
                                 .build()
 
                 )
@@ -45,10 +45,10 @@ public class HistoryAdapterCoinCap implements IHistoryAdapter {
     public Flux<HistoryInfoDTO> getHistoryOfCoin(String id, String vs_currency, String days) {
         return webClient.get()
                 .uri(uriBuilder ->
-                    uriBuilder.path(String.format("/coins/%s/market_chart", id))
-                            .queryParam("vs_currency",vs_currency)
-                            .queryParam("days",days)
-                            .build()
+                        uriBuilder.path(String.format("/coins/%s/market_chart", id))
+                                .queryParam("vs_currency", vs_currency)
+                                .queryParam("days", days)
+                                .build()
                 )
                 .retrieve()
                 .bodyToFlux(String.class)

@@ -10,7 +10,7 @@ public interface IStackingService {
 
     List<StackingDTO> findAllByUser();
 
-    StackingDTO stake(String coiname, double quantity,int daysToExpire);
+    StackingDTO stake(String coiname, double quantity, int daysToExpire);
 
     StackingDTO unStake(long id);
 
