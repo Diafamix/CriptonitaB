@@ -1,5 +1,6 @@
 package com.cryptonita.app.data.providers.impl;
 
+import com.cryptonita.app.core.services.impl.EmailService;
 import com.cryptonita.app.data.daos.*;
 import com.cryptonita.app.data.entities.*;
 import com.cryptonita.app.data.entities.enums.UserType;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,6 +50,8 @@ public class UserProviderImpl implements IUserProvider {
     private final IMapper<FavouritesModel, FavoritesResponseDto> favoritesResponseDtoIMapper;
 
     private final PasswordEncoder encoder;
+
+    private final EmailService emailService;
 
     @Override
     public synchronized List<UserResponseDTO> getAll() {
@@ -109,11 +113,26 @@ public class UserProviderImpl implements IUserProvider {
     public UserResponseDTO changeUserNumRequests(String name, int tokens) {
         UserModel model = userDao.findByUsername(name).orElse(null);
 
-        if(model == null)
+        if (model == null)
             throw new UserNotFoundException(USER_NOT_EXISTS);
 
-        model.setNumRequests(model.getNumRequests()+tokens);
+        model.setNumRequests(model.getNumRequests() + tokens);
 
+        return responseDTOIMapper.mapToDto(userDao.save(model));
+    }
+
+    @Override
+    public UserResponseDTO changeUserPassword(String mail) {
+        UserModel model = userDao.findByMail(mail).orElse(null);
+
+        if (model == null)
+            throw new UserNotFoundException(USER_NOT_EXISTS);
+
+        String pass = generateRandomPassword();
+
+        model.setPassword(encoder.encode(pass));
+
+        emailService.send(model.getMail(), "Nueva contraseña", "Su nueva contraseña es: "+pass);
         return responseDTOIMapper.mapToDto(userDao.save(model));
     }
 
@@ -121,7 +140,7 @@ public class UserProviderImpl implements IUserProvider {
     public UserResponseDTO restartUserNumRequest(String name) {
         UserModel model = userDao.findByUsername(name).orElse(null);
 
-        if(model == null)
+        if (model == null)
             throw new UserNotFoundException(USER_NOT_EXISTS);
 
         model.setNumRequests(0);
@@ -273,6 +292,21 @@ public class UserProviderImpl implements IUserProvider {
         favoritesDao.delete(favourite);
 
         return favoritesResponseDtoIMapper.mapToDto(favourite);
+    }
+
+    public static String generateRandomPassword() {
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+
+        for (int i = 0; i < 12; i++) {
+            int randomIndex = random.nextInt(chars.length());
+            sb.append(chars.charAt(randomIndex));
+        }
+
+        return sb.toString();
     }
 
 

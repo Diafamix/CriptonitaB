@@ -10,8 +10,6 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import javax.servlet.http.HttpServletRequest;
-
 @ControllerAdvice
 public class ResponseAdviceImpl implements ResponseBodyAdvice<RestResponse> {
 
@@ -31,7 +29,9 @@ public class ResponseAdviceImpl implements ResponseBodyAdvice<RestResponse> {
         if ((consume = getTokens(returnType)) != null)
             body.status.credit_count = consume.value();
 
-        body.status.elapsed = getElapsedTime((ServletServerHttpRequest) request);
+        try {
+            body.status.elapsed = getElapsedTime((ServletServerHttpRequest) request);
+        } catch (Exception ignored) {}
 
         return body;
     }

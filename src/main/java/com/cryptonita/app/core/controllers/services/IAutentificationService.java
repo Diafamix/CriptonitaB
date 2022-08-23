@@ -12,4 +12,6 @@ public interface IAutentificationService {
 
     boolean loginv2(String mail, String password);
 
+    UserResponseDTO retrieve(String email);
+
 }

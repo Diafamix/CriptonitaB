@@ -6,6 +6,7 @@ import com.cryptonita.app.data.providers.impl.UserProviderImpl;
 import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
 import lombok.AllArgsConstructor;
+import org.h2.engine.User;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -47,5 +48,10 @@ public class AuthenticationServiceImpl implements IAutentificationService {
     @Override
     public boolean loginv2(String mail, String password) {
         return userProvider.matchesPassword(mail, password);
+    }
+
+    @Override
+    public UserResponseDTO retrieve(String email) {
+        return userProvider.changeUserPassword(email);
     }
 }

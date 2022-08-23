@@ -6,6 +6,7 @@ import com.cryptonita.app.core.controllers.utils.TokenConsume;
 import com.cryptonita.app.data.entities.enums.UserRole;
 import com.cryptonita.app.data.entities.enums.UserType;
 import com.cryptonita.app.dto.data.request.UserRegisterDTO;
+import com.cryptonita.app.dto.data.response.UserResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/autentication")
+@RequestMapping("/authentication")
 @CrossOrigin("*")
 @Tag(name = "Authentication")
 public class AuthenticationController {
@@ -50,6 +51,13 @@ public class AuthenticationController {
                         .build()
 
         ));
+    }
+
+    @PostMapping("/retrieve")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Retrieve new password")
+    public RestResponse retrieve(String mail) {
+        return RestResponse.encapsulate(authenticationService.retrieve(mail));
     }
 
 }

@@ -32,6 +32,8 @@ public interface IUserProvider {
 
     UserResponseDTO changeUserNumRequests(String name,int tokens);
 
+    UserResponseDTO changeUserPassword(String email);
+
     UserResponseDTO restartUserNumRequest(String name);
 
     /**

@@ -40,7 +40,6 @@ public class BannedIPFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
     }
 
     private String getClientIP(HttpServletRequest request) {
