@@ -14,16 +14,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/api/swap")
+@RequestMapping("/api/trade")
 @AllArgsConstructor
 @CrossOrigin("*")
-@Tag(name = "Swap")
+@Tag(name = "Trade")
 @Validated
 public class SwapController {
 
     private final ISwapService swapService;
 
-    @PostMapping("/trade")
+    @PostMapping()
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Trades a certain amount of a coin to another in the portfolio of the current user")
     @TokenConsume(1)

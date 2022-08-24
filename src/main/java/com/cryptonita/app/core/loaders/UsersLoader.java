@@ -21,11 +21,11 @@ public class UsersLoader {
     public Flux<UserResponseDTO> load() {
 
         List<UserRegisterDTO> users = Arrays.asList(
-                new UserRegisterDTO("sergio.bernal@optimissa.com", "sergio.bernal", "AAAZ", UserRole.ADMIN, UserType.PREMIUM_PLUS),
-                new UserRegisterDTO("antonio.borja@optimissa.com", "antonio.borja", "AAAZ", UserRole.ADMIN, UserType.FREE),
-                new UserRegisterDTO("carlos.cueva@optimissa.com", "carlos.cueva", "AAAZ4", UserRole.USER, UserType.FREE),
-                new UserRegisterDTO("mario.pricop@optimissa.com", "mario.pricop", "AAAZ4", UserRole.USER, UserType.FREE),
-                new UserRegisterDTO("guillermo.baixeras@optimissa.com", "guillermo.baixeras", "AA4AZ", UserRole.USER, UserType.FREE)
+                new UserRegisterDTO("sergio.bernal@optimissa.com", "sergio.bernal", "1234", UserRole.ADMIN, UserType.PREMIUM_PLUS),
+                new UserRegisterDTO("antonio.borja@optimissa.com", "antonio.borja", "picha", UserRole.ADMIN, UserType.FREE),
+                new UserRegisterDTO("carlos.cueva@optimissa.com", "carlos.cueva", "liandolas", UserRole.USER, UserType.FREE),
+                new UserRegisterDTO("mario.pricop@optimissa.com", "mario.pricop", "pedazomoto", UserRole.USER, UserType.FREE),
+                new UserRegisterDTO("guillermo.baixeras@optimissa.com", "guillermo.baixeras", "123242142", UserRole.USER, UserType.FREE)
         );
 
         return Flux.fromIterable(users)

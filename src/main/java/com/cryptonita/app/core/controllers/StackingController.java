@@ -24,14 +24,6 @@ public class StackingController {
 
     private final IStackingService stackingService;
 
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Gets all the current active stacks for all the users. Needs ADMIN privileges")
-    @TokenConsume(1)
-    public RestResponse getAll() {
-        return RestResponse.encapsulate(stackingService.findAll());
-    }
-
     @GetMapping("/allUser")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Gets all the current active stacks for the current user")

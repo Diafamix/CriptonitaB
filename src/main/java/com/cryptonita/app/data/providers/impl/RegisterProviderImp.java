@@ -67,6 +67,16 @@ public class RegisterProviderImp implements IRegisterProvider {
     }
 
     @Override
+    public List<HistoryResponseDTO> getAllLogsFromUser(String user) {
+        UserModel userModel = userDao.findByUsername(user)
+                .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
+
+        return historyDao.findAllByUser_Username(userModel.getUsername()).stream()
+                .map(responseMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public synchronized List<HistoryResponseDTO> getLogsFromUsers(String user, LocalDate start, LocalDate end) {
 
         UserModel userModel = userDao.findByUsername(user)

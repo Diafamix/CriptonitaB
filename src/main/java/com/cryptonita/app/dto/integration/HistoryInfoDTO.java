@@ -10,6 +10,6 @@ import lombok.ToString;
 public class HistoryInfoDTO {
 
     public final double priceUsd;
-    public final double time;
+    public final long time;
 
 }

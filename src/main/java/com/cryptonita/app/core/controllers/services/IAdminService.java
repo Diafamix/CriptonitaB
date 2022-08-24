@@ -6,7 +6,11 @@ import com.cryptonita.app.dto.data.response.BannedUserResponseDTO;
 import com.cryptonita.app.dto.data.response.CoinResponseDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
 
+import java.util.List;
+
 public interface IAdminService {
+
+    List<UserResponseDTO> getAllUsers();
 
     CoinResponseDTO createCoin(String coinID, String name, String symbol);
 

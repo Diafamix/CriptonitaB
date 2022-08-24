@@ -3,7 +3,9 @@ package com.cryptonita.app;
 import com.cryptonita.app.core.controllers.services.IPortfolioService;
 import com.cryptonita.app.core.loaders.CoinLoader;
 import com.cryptonita.app.core.loaders.UsersLoader;
+import com.cryptonita.app.core.services.IPortfolioCalculator;
 import com.cryptonita.app.data.providers.IAccountProvider;
+import com.cryptonita.app.data.providers.IRegisterProvider;
 import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.integration.websocket.CoinCapConsumer;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.time.LocalDate;
 
 @Slf4j
 @SpringBootApplication
@@ -27,9 +31,9 @@ public class AppApplication {
             CoinLoader coinLoader,
             UsersLoader usersLoader,
             IAccountProvider accountProvider,
-            IPortfolioService portfolioService,
-            IUserProvider userProvider,
-            CoinCapConsumer coinCapConsumer
+            CoinCapConsumer coinCapConsumer,
+            IRegisterProvider registerProvider,
+            IPortfolioCalculator portfolioCalculator
 
     ) {
         return (args) -> {
@@ -38,15 +42,26 @@ public class AppApplication {
             coinLoader.load().blockLast();
             usersLoader.load().blockLast();
 
-            accountProvider.deposit("sergio.bernal", "Bitcoin", 12);
-
-            accountProvider.deposit("sergio.bernal", "ethereum", 120);
-
-
+            mockHistoryAndPortfolio(accountProvider, registerProvider);
         };
     }
 
-    private void callBack() {
+    private void mockHistoryAndPortfolio(IAccountProvider accountProvider, IRegisterProvider registerProvider) {
+
+        accountProvider.deposit("sergio.bernal", "Bitcoin", 1);
+
+        registerProvider.log("sergio.bernal",
+                LocalDate.now().minusDays(10), "Test", "test2", 15);
+
+        accountProvider.deposit("sergio.bernal", "Bitcoin", 1);
+
+        registerProvider.log("sergio.bernal",
+                LocalDate.now().minusDays(5), "Test", "test2", 15);
+
+        accountProvider.deposit("sergio.bernal", "Cardano", 4.58);
+
+        registerProvider.log("sergio.bernal",
+                LocalDate.now(), "Test", "test2", 15);
     }
 
 }

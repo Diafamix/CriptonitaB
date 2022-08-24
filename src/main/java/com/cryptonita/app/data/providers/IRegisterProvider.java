@@ -14,6 +14,8 @@ public interface IRegisterProvider {
 
     HistoryResponseDTO log(String username, LocalDate date, String origin, String destiny, double quantity);
 
+    List<HistoryResponseDTO> getAllLogsFromUser(String user);
+
     List<HistoryResponseDTO> getLogsFromUsers(String user, LocalDate start, LocalDate end);
 
     HistoryResponseDTO getOneRegister(long id);

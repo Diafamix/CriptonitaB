@@ -80,8 +80,7 @@ public class AssetsServiceImpl implements IAssetsService {
 
         return coinService.getHistoryOfCoin(id, vs_currency, days, interval.get());
     }
-
-
+    
     @Override
     public Flux<CandleInfoDTO> getAllCandles(String id, String vs_currency, String days) {
         return coinService.getCandleOfCoin(id, vs_currency, days);

@@ -44,7 +44,7 @@ public class HistoryAdapterMapper implements AdapterMapper<HistoryInfoDTO> {
     private HistoryInfoDTO maper(JsonNode node) {
         return HistoryInfoDTO.builder()
                 .priceUsd(node.get(1).asDouble())
-                .time(node.get(0).asDouble())
+                .time(node.get(0).asLong())
                 .build();
     }
 }

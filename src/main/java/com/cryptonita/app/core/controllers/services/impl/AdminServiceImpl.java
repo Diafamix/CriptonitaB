@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -24,10 +26,13 @@ public class AdminServiceImpl implements IAdminService {
     private final IUserProvider userProvider;
     private final SecurityContextHelper securityContextHelper;
 
+    @Override
+    public List<UserResponseDTO> getAllUsers() {
+        return userProvider.getAll();
+    }
 
     @Override
     public CoinResponseDTO createCoin(String coinID, String name, String symbol) {
-        //log.info(); //TODO
         return coinProvider.createCoin(coinID, name, symbol);
     }
 

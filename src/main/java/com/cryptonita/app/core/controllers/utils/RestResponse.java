@@ -27,6 +27,10 @@ public class RestResponse {
         return new RestResponse(e, status);
     }
 
+    public static RestResponse encapsulate(String message, HttpStatus status) {
+        return new RestResponse(status.value(), message);
+    }
+
     public static RestResponse encapsulate(Object data) {
         return new RestResponse(data);
     }

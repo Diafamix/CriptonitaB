@@ -27,7 +27,6 @@ public class HistoryModel {
     private String origin;
     private String destiny;
     private double quantity;
-
     private String portfolio;
 
     @Builder

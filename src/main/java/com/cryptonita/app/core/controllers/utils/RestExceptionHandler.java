@@ -45,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     protected RestResponse defaultHandler(RuntimeException e) {
-        return RestResponse.encapsulate(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return RestResponse.encapsulate("Internal error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

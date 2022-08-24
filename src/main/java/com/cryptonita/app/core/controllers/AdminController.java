@@ -1,7 +1,9 @@
 package com.cryptonita.app.core.controllers;
 
 import com.cryptonita.app.core.controllers.services.IAdminService;
+import com.cryptonita.app.core.controllers.services.IStackingService;
 import com.cryptonita.app.core.controllers.utils.RestResponse;
+import com.cryptonita.app.core.controllers.utils.TokenConsume;
 import com.cryptonita.app.data.entities.enums.UserRole;
 import com.cryptonita.app.data.entities.enums.UserType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,13 +19,14 @@ import javax.validation.constraints.Positive;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin")
+@RequestMapping("/admin")
 @CrossOrigin("*")
 @Tag(name = "Admin")
 @Validated
 public class AdminController {
 
     private final IAdminService adminService;
+    private final IStackingService stackingService;
 
     @PostMapping("/assets/create")
     @ResponseStatus(HttpStatus.OK)
@@ -39,6 +42,13 @@ public class AdminController {
     @Operation(summary = "Removes a coin to be tracked")
     public RestResponse deleteCoin(@NotBlank String name) {
         return RestResponse.encapsulate(adminService.deleteCoin(name));
+    }
+
+    @PostMapping("/users/all")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Gets all the users registered")
+    public RestResponse getAllUsers() {
+        return RestResponse.encapsulate(adminService.getAllUsers());
     }
 
     @PostMapping("/users/createUser")
@@ -79,4 +89,13 @@ public class AdminController {
     public RestResponse getUserById(@Positive long id) {
         return RestResponse.encapsulate(adminService.getUserById(id));
     }
+
+    @GetMapping("/stake//all")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Gets all the current active stacks for all the users")
+    @TokenConsume(1)
+    public RestResponse getAll() {
+        return RestResponse.encapsulate(stackingService.findAll());
+    }
+
 }

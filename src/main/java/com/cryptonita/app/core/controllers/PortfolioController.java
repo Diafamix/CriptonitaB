@@ -20,14 +20,14 @@ import javax.validation.constraints.NotBlank;
 @Validated
 public class PortfolioController {
 
-    private final IPortfolioService porfolioService;
+    private final IPortfolioService portfolioService;
 
     @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Retrieves information of a wallet identified with a coin name from the current user")
     @TokenConsume(1)
     public RestResponse get(@NotBlank String coin) {
-        return RestResponse.encapsulate(porfolioService.get(coin));
+        return RestResponse.encapsulate(portfolioService.get(coin));
     }
 
     @GetMapping("/getAll")
@@ -35,6 +35,15 @@ public class PortfolioController {
     @Operation(summary = "Gets the portfolio (totalBalance, coins, coin market data and allocation) for the current user ")
     @TokenConsume(1)
     public RestResponse getPortfolio() {
-        return RestResponse.encapsulate(porfolioService.getAll());
+        return RestResponse.encapsulate(portfolioService.getAll());
     }
+
+    @GetMapping("/chart")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Gets the portfolio chart of the user ")
+    @TokenConsume(4)
+    public RestResponse getPortfolioChart() {
+        return RestResponse.encapsulate(portfolioService.getPortfolioChart());
+    }
+
 }

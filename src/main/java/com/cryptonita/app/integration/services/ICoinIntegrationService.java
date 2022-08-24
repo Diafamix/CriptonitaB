@@ -4,6 +4,8 @@ import com.cryptonita.app.dto.integration.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 public interface ICoinIntegrationService {
 
     Mono<CoinMetadataDTO> getInfo(String coinID);
@@ -24,6 +26,8 @@ public interface ICoinIntegrationService {
     Flux<CoinMarketDTO> getAllMarketByIds(String ids);
 
     Flux<CoinMarketDTO> getAllMarketByIds(String... ids);
+
+    Mono<CoinHistoricalMarketDTO> getHistorical(String coinId, LocalDate dateAt);
 
     Flux<CandleInfoDTO> getCandleOfCoin(String id, String vs_currency, String days);
 

@@ -24,28 +24,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationErrorHandling authenticationErrorHandling;
     private final AuthorizationErrorHandler authorizationErrorHandler;
 
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .csrf()
-                .disable()
-                .csrf().disable()
+                    .disable()
                 .addFilterBefore(bannedIPFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(bannerUserFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(ratePerMinuteFilter, BannerUserFilter.class)
                 .addFilterAfter(ratePerMonthFilter, RatePerMinuteFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/**")
-                .hasAnyAuthority("ADMIN", "USER")
-                .and()
+                    .antMatchers("/admin/**")
+                        .hasAuthority("ADMIN")
+                    .antMatchers("/api/**")
+                        .hasAnyAuthority("ADMIN", "USER")
+                    .and()
                 .httpBasic()
                 .authenticationEntryPoint(authenticationErrorHandling)
-                .and()
+                    .and()
                 .headers().frameOptions().disable()
-                .and()
+                    .and()
                 .exceptionHandling().accessDeniedHandler(authorizationErrorHandler);
     }
 
