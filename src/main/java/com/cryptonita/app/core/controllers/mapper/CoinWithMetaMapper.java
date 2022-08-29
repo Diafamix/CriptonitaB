@@ -7,14 +7,17 @@ import com.cryptonita.app.dto.data.response.CoinResponseDTO;
 import com.cryptonita.app.dto.integration.CoinMarketDTO;
 import com.cryptonita.app.integration.services.ICoinIntegrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
 public class CoinWithMetaMapper implements IMapper<CoinResponseDTO, Mono<CoinDTO>> {
 
-    private final ICoinIntegrationService coinService;
+    @Autowired
+    @Qualifier("Cache")
+    private ICoinIntegrationService coinService;
 
     @Override
     public Mono<CoinDTO> mapToDto(CoinResponseDTO coinResponseDTO) {

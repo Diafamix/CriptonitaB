@@ -13,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -26,7 +28,6 @@ import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class PortfolioCalculatorImpl implements IPortfolioCalculator {
 
     private static final double MILLIS_IN_A_DAY = 24 * 60 * 60 * 1000;
@@ -35,8 +36,12 @@ public class PortfolioCalculatorImpl implements IPortfolioCalculator {
             new TypeReference<List<WalletResponseDto>>() {
             };
 
-    private final IRegisterProvider registerProvider;
-    private final ICoinIntegrationService coinIntegrationService;
+    @Autowired
+    private IRegisterProvider registerProvider;
+
+    @Autowired
+    @Qualifier("Cache")
+    private ICoinIntegrationService coinIntegrationService;
 
     @Override
     public List<HistoryInfoDTO> calculateAllTime(String username) {

@@ -7,6 +7,8 @@ import com.cryptonita.app.dto.data.response.CoinResponseDTO;
 import com.cryptonita.app.dto.integration.CoinMarketDTO;
 import com.cryptonita.app.integration.services.ICoinIntegrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
@@ -16,10 +18,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-@AllArgsConstructor
 public class CoinManyWithMetaMapper implements IMapper<List<CoinResponseDTO>, Flux<CoinDTO>> {
 
-    private final ICoinIntegrationService coinService;
+    @Autowired
+    @Qualifier("Cache")
+    private ICoinIntegrationService coinService;
 
     @Override
     public Flux<CoinDTO> mapToDto(List<CoinResponseDTO> coinResponseDTOS) {

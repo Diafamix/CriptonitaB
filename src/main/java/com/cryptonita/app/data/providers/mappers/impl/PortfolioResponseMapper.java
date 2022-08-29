@@ -6,17 +6,21 @@ import com.cryptonita.app.dto.data.response.PortfolioResponseDTO;
 import com.cryptonita.app.dto.data.response.WalletResponseDto;
 import com.cryptonita.app.integration.services.ICoinIntegrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Component
 public class PortfolioResponseMapper implements IMapper<Map<String, WalletResponseDto>, PortfolioResponseDTO> {
 
-    private final ICoinIntegrationService coinIntegrationService;
+    @Autowired
+    @Qualifier("Cache")
+    private ICoinIntegrationService coinIntegrationService;
 
     @Override
     public PortfolioResponseDTO mapToDto(Map<String, WalletResponseDto> wallets) {
@@ -25,18 +29,23 @@ public class PortfolioResponseMapper implements IMapper<Map<String, WalletRespon
                 .collect(Collectors.toList());
 
         double totalBalance = calculateBalance(coinDetailsDTOList);
-
         calculateAllocation(coinDetailsDTOList, totalBalance);
 
         return PortfolioResponseDTO.builder()
                 .balance(totalBalance)
-                .wallets(coinDetailsDTOList)
+                .wallets(sortedWallets(coinDetailsDTOList))
                 .build();
+    }
+
+    private List<CoinDetailsDTO> sortedWallets(List<CoinDetailsDTO> detailsDTOS) {
+        return detailsDTOS.stream()
+                .sorted(Comparator.comparing(CoinDetailsDTO::getAllocation).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
     public Map<String, WalletResponseDto> mapToEntity(PortfolioResponseDTO portfolioResponseDTO) {
-        throw new RuntimeException();
+        throw new UnsupportedOperationException();
     }
 
     private CoinDetailsDTO mapToDetails(WalletResponseDto dto) {

@@ -21,6 +21,7 @@ public class UsersLoader {
     public Flux<UserResponseDTO> load() {
 
         List<UserRegisterDTO> users = Arrays.asList(
+                new UserRegisterDTO("test@gmail.com", "Front-admin", "1234", UserRole.ADMIN, UserType.PREMIUM_PLUS),
                 new UserRegisterDTO("sergio.bernal@optimissa.com", "sergio.bernal", "1234", UserRole.ADMIN, UserType.PREMIUM_PLUS),
                 new UserRegisterDTO("antonio.borja@optimissa.com", "antonio.borja", "picha", UserRole.ADMIN, UserType.FREE),
                 new UserRegisterDTO("carlos.cueva@optimissa.com", "carlos.cueva", "liandolas", UserRole.USER, UserType.FREE),

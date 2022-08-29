@@ -13,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -31,8 +33,8 @@ public class HistoryController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical operations of the current user at a given date range")
     @TokenConsume(1)
-    public RestResponse getHistoryByUserName(@DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate start,
-                                             @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate end) {
+    public RestResponse getHistoryByUserName(@DateTimeFormat(pattern = "dd-MM-yyyy") @NotNull LocalDate start,
+                                             @DateTimeFormat(pattern = "dd-MM-yyyy") @NotNull LocalDate end) {
         return RestResponse.encapsulate(historyService.getAllRegisterUser(start, end));
     }
 
@@ -40,8 +42,8 @@ public class HistoryController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get historical operations of the current user as a excel at a given date range (BETA)")
     @TokenConsume(2)
-    public void downloadHistory(@DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate start,
-                                @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate end,
+    public void downloadHistory(@DateTimeFormat(pattern = "dd-MM-yyyy") @NotNull LocalDate start,
+                                @DateTimeFormat(pattern = "dd-MM-yyyy") @NotNull LocalDate end,
                                 HttpServletResponse response) throws IOException {
         excelService.downloadHistory(start, end, response);
     }

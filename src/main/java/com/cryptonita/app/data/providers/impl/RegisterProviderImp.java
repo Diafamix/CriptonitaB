@@ -9,6 +9,7 @@ import com.cryptonita.app.data.providers.IRegisterProvider;
 import com.cryptonita.app.data.providers.mappers.IMapper;
 import com.cryptonita.app.dto.data.response.HistoryResponseDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
+import com.cryptonita.app.dto.data.response.WalletResponseDto;
 import com.cryptonita.app.exceptions.data.HistoryNotFoundException;
 import com.cryptonita.app.exceptions.data.UserNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,6 @@ public class RegisterProviderImp implements IRegisterProvider {
     private final IHistoryDao historyDao;
     private final IUserDao userDao;
     private final IMapper<HistoryModel, HistoryResponseDTO> responseMapper;
-    private final IMapper<UserModel, UserResponseDTO> userResponseDTOIMapper;
     private final IAccountProvider accountProvider;
     private final ObjectMapper jsonMapper;
 
@@ -55,15 +56,9 @@ public class RegisterProviderImp implements IRegisterProvider {
                 .portfolio(jsonMapper.writeValueAsString(accountProvider.getAllFromUser(userModel.getUsername())))
                 .build();
 
-        historyDao.save(model);
+        model = historyDao.save(model);
 
-        return HistoryResponseDTO.builder()
-                .user(userResponseDTOIMapper.mapToDto(userModel))
-                .destiny(model.getDestiny())
-                .origin(model.getOrigin())
-                .date(model.getDate())
-                .quantity(model.getQuantity())
-                .build();
+        return responseMapper.mapToDto(model);
     }
 
     @Override

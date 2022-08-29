@@ -44,7 +44,7 @@ public class CoinCapPriceHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        session.setTextMessageSizeLimit(30000);
+        session.setTextMessageSizeLimit(70000);
         String payload = "{\"type\": \"subscribe\",\"channels\":[{\"name\": \"ticker\",\"product_ids\": [\"ETH-EUR\"]}]}";
     }
 

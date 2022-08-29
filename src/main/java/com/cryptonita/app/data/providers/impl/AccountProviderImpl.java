@@ -40,7 +40,7 @@ public class AccountProviderImpl implements IAccountProvider {
     public synchronized WalletResponseDto get(String user, String coin) {
         return walletDao.findByUser_UsernameAndCoinName(user, coin)
                 .map(walletMapper::mapToDto)
-                .orElseThrow(() -> new WalletNotFoundException("The Wallet dont exist"));
+                .orElseThrow(() -> new WalletNotFoundException("You dont have any " + coin));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AccountProviderImpl implements IAccountProvider {
         UserModel userModel = userDao.findByUsername(user)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USER_ALREADY_EXISTS, user)));
 
-        CoinModel coinModel = coinDAO.findByName(coin).
+        CoinModel coinModel = coinDAO.findByCoinID(coin).
                 orElseThrow(() -> new CoinNotFoundException(String.format(COIN_ALREADY_EXISTS, coin)));
 
         WalletModel walletModel = WalletModel.builder()
@@ -65,8 +65,8 @@ public class AccountProviderImpl implements IAccountProvider {
         UserModel userModel = userDao.findByUsername(user)
                 .orElseThrow(() -> new UserNotFoundException(String.format(USER_ALREADY_EXISTS, user)));
 
-        CoinModel coinModel = coinDAO.findByName(coin)
-                .orElseThrow(() -> new CoinNotFoundException(String.format(COIN_ALREADY_EXISTS, coin)));
+        CoinModel coinModel = coinDAO.findByCoinID(coin)
+                .orElseThrow(() -> new CoinNotFoundException(String.format(NO_COIN_FOUND, coin)));
 
         WalletModel walletModel = userModel.getWallets().stream()
                 .filter(walletModel1 -> walletModel1.getCoin().equals(coinModel))
@@ -92,7 +92,7 @@ public class AccountProviderImpl implements IAccountProvider {
                 .orElseThrow(() -> new UserNotFoundException(String.format(USER_ALREADY_EXISTS, user)));
 
         CoinModel coinModel = coinDAO.findByCoinID(coin).
-                orElseThrow(() -> new CoinNotFoundException(String.format(COIN_ALREADY_EXISTS, coin)));
+                orElseThrow(() -> new CoinNotFoundException(String.format(NO_COIN_FOUND, coin)));
 
         WalletModel walletModel = userModel.getWallets().stream()
                 .filter(walletModel1 -> walletModel1.getCoin().equals(coinModel))
@@ -100,10 +100,10 @@ public class AccountProviderImpl implements IAccountProvider {
                 .orElse(null);
 
         if (walletModel == null)
-            throw new WalletNotFoundException("This Wallet doesnt exist");
+            throw new WalletNotFoundException("You dont have any " + coin);
 
         if (walletModel.getQuantity() < amount)
-            throw new WalletNotFoundException("This wallet doesnt have sufficient funds ");
+            throw new WalletNotFoundException("You dont have enough " + coin);
 
         walletModel.setQuantity(walletModel.getQuantity() - amount);
 

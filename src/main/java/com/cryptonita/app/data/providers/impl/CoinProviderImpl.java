@@ -29,7 +29,7 @@ public class CoinProviderImpl implements ICoinProvider {
 
     @Override
     public synchronized CoinResponseDTO createCoin(String coinID, String name, String symbol) {
-        if (coinDAO.findByName(name).isPresent())
+        if (coinDAO.findByCoinID(name).isPresent())
             throw new CoinAlreadyExistsException(String.format(COIN_ALREADY_EXISTS, name));
 
         CoinModel coin = CoinModel.builder()

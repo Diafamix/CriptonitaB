@@ -5,6 +5,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public interface ICoinIntegrationService {
 
@@ -12,20 +14,28 @@ public interface ICoinIntegrationService {
 
     Flux<CoinMetadataDTO> getAllInfos(String... coinID);
 
-    Flux<CoinMarketDTO> getAllMarkets();
+    default Flux<CoinMarketDTO> getAllMarkets() {
+        return getAllMarkets("usd");
+    }
 
     Flux<CoinMarketDTO> getAllMarkets(String vs_currency);
 
     Flux<CoinMarketDTO> getAllMarkets(String vs_currency, String ids, String category, String order, Integer per_page,
                                       Integer page, Boolean sparkline, String price_change_percentage);
 
-    Flux<CoinMarketDTO> getAllMarkets(String vs_currency, String... ids);
+    default Flux<CoinMarketDTO> getAllMarkets(String vs_currency, String... ids) {
+        return getAllMarkets(vs_currency, String.join(",", ids));
+    }
 
     Flux<CoinMarketDTO> getAllMarkets(String vs_currency, String ids);
 
-    Flux<CoinMarketDTO> getAllMarketByIds(String ids);
+    default Flux<CoinMarketDTO> getAllMarketByIds(String ids) {
+        return getAllMarkets("usd", ids);
+    }
 
-    Flux<CoinMarketDTO> getAllMarketByIds(String... ids);
+    default Flux<CoinMarketDTO> getAllMarketByIds(String... ids) {
+        return getAllMarketByIds(String.join(",", ids));
+    }
 
     Mono<CoinHistoricalMarketDTO> getHistorical(String coinId, LocalDate dateAt);
 

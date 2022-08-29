@@ -5,6 +5,7 @@ import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.BannedUserResponseDTO;
 import com.cryptonita.app.dto.data.response.FavoritesResponseDto;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface IUserProvider {
 
     UserResponseDTO changeUserNumRequests(String name, int tokens);
 
-    UserResponseDTO changeUserPassword(String email);
+    Pair<UserResponseDTO, String> changeUserPassword(String email);
 
     UserResponseDTO restartUserNumRequest(String name);
 

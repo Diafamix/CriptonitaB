@@ -1,12 +1,10 @@
 package com.cryptonita.app;
 
-import com.cryptonita.app.core.controllers.services.IPortfolioService;
 import com.cryptonita.app.core.loaders.CoinLoader;
 import com.cryptonita.app.core.loaders.UsersLoader;
 import com.cryptonita.app.core.services.IPortfolioCalculator;
 import com.cryptonita.app.data.providers.IAccountProvider;
 import com.cryptonita.app.data.providers.IRegisterProvider;
-import com.cryptonita.app.data.providers.IUserProvider;
 import com.cryptonita.app.integration.websocket.CoinCapConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -35,6 +33,8 @@ public class AppApplication {
             IRegisterProvider registerProvider,
             IPortfolioCalculator portfolioCalculator
 
+            //Prueba Gitlab
+
     ) {
         return (args) -> {
             coinCapConsumer.start(); // Starts websocket
@@ -62,6 +62,7 @@ public class AppApplication {
 
         registerProvider.log("sergio.bernal",
                 LocalDate.now(), "Test", "test2", 15);
+
     }
 
 }

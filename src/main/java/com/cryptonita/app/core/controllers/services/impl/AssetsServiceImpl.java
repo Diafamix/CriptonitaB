@@ -1,6 +1,7 @@
 package com.cryptonita.app.core.controllers.services.impl;
 
 import com.cryptonita.app.core.controllers.services.IAssetsService;
+import com.cryptonita.app.core.services.cache.CoinIntegrationServiceCache;
 import com.cryptonita.app.data.providers.ICoinProvider;
 import com.cryptonita.app.data.providers.mappers.IMapper;
 import com.cryptonita.app.dto.controller.CoinDTO;
@@ -10,23 +11,32 @@ import com.cryptonita.app.dto.integration.CoinMetadataDTO;
 import com.cryptonita.app.dto.integration.HistoryInfoDTO;
 import com.cryptonita.app.integration.services.ICoinIntegrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class AssetsServiceImpl implements IAssetsService {
 
-    private final ICoinProvider coinProvider;
 
-    private final ICoinIntegrationService coinService;
+    @Autowired
+    private ICoinProvider coinProvider;
 
-    private final IMapper<CoinResponseDTO, Mono<CoinDTO>> coinDTOMapper;
-    private final IMapper<List<CoinResponseDTO>, Flux<CoinDTO>> coinDTOManyMapper;
+    @Autowired
+    @Qualifier("Cache")
+    private ICoinIntegrationService coinService;
+
+    @Autowired
+    private IMapper<CoinResponseDTO, Mono<CoinDTO>> coinDTOMapper;
+
+    @Autowired
+    private IMapper<List<CoinResponseDTO>, Flux<CoinDTO>> coinDTOManyMapper;
 
     @Override
     public List<CoinResponseDTO> list() {

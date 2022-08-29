@@ -4,6 +4,8 @@ import com.cryptonita.app.dto.integration.*;
 import com.cryptonita.app.integration.adapters.*;
 import com.cryptonita.app.integration.services.ICoinIntegrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,6 +13,8 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 
 @Service
+@Primary
+@Qualifier("Impl")
 @AllArgsConstructor
 public class CoinIntegrationServiceImpl implements ICoinIntegrationService {
 

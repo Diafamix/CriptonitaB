@@ -2,21 +2,30 @@ package com.cryptonita.app.core.controllers.services.impl;
 
 import com.cryptonita.app.core.controllers.services.IAutentificationService;
 import com.cryptonita.app.core.services.impl.EmailService;
+import com.cryptonita.app.data.providers.IAccountProvider;
+import com.cryptonita.app.data.providers.IRegisterProvider;
 import com.cryptonita.app.data.providers.impl.UserProviderImpl;
 import com.cryptonita.app.dto.data.request.UserRegisterDTO;
 import com.cryptonita.app.dto.data.response.UserResponseDTO;
+import com.cryptonita.app.dto.data.response.WalletResponseDto;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
 public class AuthenticationServiceImpl implements IAutentificationService {
 
-    UserProviderImpl userProvider;
-    EmailService emailService;
+    private static final int INITIAL_BALANCE = 1000;
+
+    private final UserProviderImpl userProvider;
+    private final EmailService emailService;
+    private final IAccountProvider accountProvider;
+    private final IRegisterProvider registerProvider;
 
     @Override
     public UserResponseDTO register(@Valid UserRegisterDTO userRegisterDTO) {
@@ -31,7 +40,11 @@ public class AuthenticationServiceImpl implements IAutentificationService {
 
 
         UserResponseDTO responseDTO = userProvider.register(newUser);
-        sendEmail(responseDTO);
+        sendRegisterMail(responseDTO);
+
+        WalletResponseDto walletResponseDto = accountProvider.deposit(newUser.username, "tether", INITIAL_BALANCE);
+        registerProvider.log(newUser.username, LocalDate.now(), "Reserve",
+                "Wallet_" + walletResponseDto.getId(), INITIAL_BALANCE);
 
         return responseDTO;
     }
@@ -48,10 +61,18 @@ public class AuthenticationServiceImpl implements IAutentificationService {
 
     @Override
     public UserResponseDTO retrieve(String email) {
-        return userProvider.changeUserPassword(email);
+        Pair<UserResponseDTO, String> pair = userProvider.changeUserPassword(email);
+        sendNewPasswordMail(pair.getLeft().mail, pair.getRight());
+
+        return pair.getLeft();
     }
 
-    private void sendEmail(UserResponseDTO userDTO) {
+    private void sendNewPasswordMail(String mail, String newPassword) {
+        CompletableFuture.runAsync(() ->
+                emailService.send(mail, "New Password", "Your new password is: " + newPassword));
+    }
+
+    private void sendRegisterMail(UserResponseDTO userDTO) {
         CompletableFuture.runAsync(() ->
                 emailService.send(userDTO.mail, "Register", buildEmail(userDTO.username, "")));
     }
@@ -74,7 +95,7 @@ public class AuthenticationServiceImpl implements IAutentificationService {
                 "                  \n" +
                 "                    </td>\n" +
                 "                    <td style=\"font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px\">\n" +
-                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Confirm your email</span>\n" +
+                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Welcome to Cryptontita/span>\n" +
                 "                    </td>\n" +
                 "                  </tr>\n" +
                 "                </tbody></table>\n" +
@@ -112,7 +133,7 @@ public class AuthenticationServiceImpl implements IAutentificationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> http://localhost:3000/coinInfo/bitcoinThank you for registering. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +

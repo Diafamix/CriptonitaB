@@ -50,9 +50,9 @@ public class AuthenticationController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Registers a new user")
-    public RestResponse register(@NotBlank @Email(regexp = EMAIL_PATTERN) String mail,
-                                 @NotBlank String username,
-                                 @Pattern(regexp = PASSWORD_PATTERN) String password) {
+    public RestResponse register(@RequestParam @NotBlank @Email(regexp = EMAIL_PATTERN) String mail,
+                                 @RequestParam @NotBlank String username,
+                                 @RequestParam @Pattern(regexp = PASSWORD_PATTERN) String password) {
         return RestResponse.encapsulate(authenticationService.register(
                 UserRegisterDTO.builder()
                         .username(username)

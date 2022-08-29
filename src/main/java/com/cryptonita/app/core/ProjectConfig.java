@@ -2,6 +2,7 @@ package com.cryptonita.app.core;
 
 import com.cryptonita.app.core.controllers.utils.HandlerInterceptorImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.text.SimpleDateFormat;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +36,9 @@ public class ProjectConfig {
     ObjectMapper jsonMapper() {
         return new ObjectMapper()
                 .registerModule(new Jdk8Module())
-                .registerModule(new JavaTimeModule());
+                .registerModule(new JavaTimeModule())
+                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd"))  // Date/LocalDate format
+                .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false);  // LocalDateTime format
     }
 
     @Bean

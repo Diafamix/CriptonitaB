@@ -22,6 +22,7 @@ import com.cryptonita.app.exceptions.data.FavoritesNotFoundException;
 import com.cryptonita.app.exceptions.data.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,6 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -119,10 +119,8 @@ public class UserProviderImpl implements IUserProvider {
 
     @Override
     public synchronized UserResponseDTO changeUserType(String mail, UserType userType) {
-        UserModel model = userDao.findByMail(mail).orElse(null);
-
-        if (model == null)
-            throw new UserNotFoundException(USER_NOT_EXISTS);
+        UserModel model = userDao.findByMail(mail)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_EXISTS));
 
         model.setType(userType);
 
@@ -131,10 +129,8 @@ public class UserProviderImpl implements IUserProvider {
 
     @Override
     public UserResponseDTO changeUserNumRequests(String name, int tokens) {
-        UserModel model = userDao.findByUsername(name).orElse(null);
-
-        if (model == null)
-            throw new UserNotFoundException(USER_NOT_EXISTS);
+        UserModel model = userDao.findByUsername(name)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_EXISTS));
 
         model.setNumRequests(model.getNumRequests() + tokens);
 
@@ -142,31 +138,20 @@ public class UserProviderImpl implements IUserProvider {
     }
 
     @Override
-    public UserResponseDTO changeUserPassword(String mail) {
-        UserModel model = userDao.findByMail(mail).orElse(null);
-
-        if (model == null)
-            throw new UserNotFoundException(USER_NOT_EXISTS);
+    public Pair<UserResponseDTO, String> changeUserPassword(String mail) {
+        UserModel model = userDao.findByMail(mail)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_EXISTS));
 
         String newPassword = generateRandomPassword();
-
         model.setPassword(encoder.encode(newPassword));
-        sendNewPasswordMail(model.getMail(), newPassword);
 
-        return responseDTOIMapper.mapToDto(userDao.save(model));
-    }
-
-    private void sendNewPasswordMail(String mail, String newPassword) {
-        CompletableFuture.runAsync(() ->
-                emailService.send(mail, "New Password", "Your new password is: " + newPassword));
+        return Pair.of(responseDTOIMapper.mapToDto(userDao.save(model)), newPassword);
     }
 
     @Override
     public UserResponseDTO restartUserNumRequest(String name) {
-        UserModel model = userDao.findByUsername(name).orElse(null);
-
-        if (model == null)
-            throw new UserNotFoundException(USER_NOT_EXISTS);
+        UserModel model = userDao.findByUsername(name)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_EXISTS));
 
         model.setNumRequests(0);
 
@@ -286,7 +271,7 @@ public class UserProviderImpl implements IUserProvider {
         UserModel user = userDao.findByUsername(name)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
-        CoinModel coin = coinDAO.findByName(coinStr)
+        CoinModel coin = coinDAO.findByCoinID(coinStr)
                 .orElseThrow(() -> new CoinNotFoundException(String.format(COIN_ALREADY_EXISTS, coinStr)));
 
         if (favoritesDao.findByUser_UsernameAndCoinName(name, coinStr).isPresent())
@@ -307,7 +292,7 @@ public class UserProviderImpl implements IUserProvider {
         UserModel user = userDao.findByUsername(name)
                 .orElseThrow(() -> new UserNotFoundException(USER_ALREADY_EXISTS));
 
-        CoinModel coin = coinDAO.findByName(coinStr)
+        CoinModel coin = coinDAO.findByCoinID(coinStr)
                 .orElseThrow(() -> new CoinNotFoundException(String.format(COIN_ALREADY_EXISTS, coinStr)));
 
         FavouritesModel favourite = favoritesDao.findByUser_UsernameAndCoinName(name, coinStr).orElse(null);
