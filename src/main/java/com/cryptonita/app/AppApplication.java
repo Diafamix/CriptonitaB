@@ -26,7 +26,7 @@ public class AppApplication {
 
     @Bean
     CommandLineRunner init(
-            CoinLoader coinLoader,
+            CoinLoader coinLoader,fsdfsadfas
             UsersLoader usersLoader,
             IAccountProvider accountProvider,
             CoinCapConsumer coinCapConsumer,
